@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "author": "duchao <2394245871@qq.com>",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^5.27.6",
+    "html2canvas": "^1.4.1",
+    "leafer-ui": "^1.9.12",
+    "umi": "^4.5.3",
+    "uuid": "^13.0.0",
+    "zundo": "^2.3.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^11.0.0",
+    "typescript": "^5.0.3",
+    "webpack-theme-color-replacer": "^1.5.5"
+  }
+}
