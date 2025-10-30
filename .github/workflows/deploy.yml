@@ -19,12 +19,12 @@ jobs:
     - name: Install dependencies
       run: |
         cd front-end
-        pnpm install
+        npm install
 
     - name: Build project
       run: |
         cd front-end
-        pnpm run build
+        npm run build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
