@@ -8,10 +8,10 @@ export default defineConfig({
   ],
   npmClient: 'pnpm',
   // 根据环境设置路径
-  base: '/web-ppt/',
-  publicPath: '/web-ppt/',
+  // base: '/web-ppt/',
+  // publicPath: '/web-ppt/',
   // 使用 hash 路由，避免需要服务器端路由支持
-  history: { type: 'hash' },
+  // history: { type: 'hash' },
   // vite: {
   //   cacheDir: 'node_modules/.bin/.vite',
   // }
