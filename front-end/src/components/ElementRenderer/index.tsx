@@ -25,8 +25,13 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
 
   // 处理拖拽开始
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.target !== e.currentTarget && element.type !== 'text') return;
-    
+    if (element.type === 'text' && isSelected) {
+      if (e.target !== e.currentTarget) {
+        e.stopPropagation();
+        return;
+      }
+    }
+
     e.preventDefault();
     e.stopPropagation();
     
@@ -34,7 +39,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
     setDragStart({ x: e.clientX, y: e.clientY });
     
     onSelect(element.id, e);
-  }, [element.id, element.type, onSelect]);
+  }, [element.id, element.type, isSelected, onSelect]);
 
   // 处理缩放开始
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, direction: string) => {
