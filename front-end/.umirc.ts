@@ -7,7 +7,12 @@ export default defineConfig({
     { path: "/preview", component: "preview" },
   ],
   npmClient: 'pnpm',
-  publicPath: '/web-ppt/',
+  // 根据环境设置路径
+  publicPath: process.env.NODE_ENV === 'production' ? '/web-ppt/' : '/',
+  // 使用 hash 路由，避免需要服务器端路由支持
+  history: { type: 'hash' },
+  // 根据环境设置base路径
+  base: process.env.NODE_ENV === 'production' ? '/web-ppt/' : '/',
   // chainWebpack(memo) {
   //   memo.plugin('webpack-theme-color-replacer').use(ThemeColorReplacer, [
   //     {
