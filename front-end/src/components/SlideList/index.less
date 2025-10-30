@@ -11,17 +11,64 @@
 
   .list {
     .slideItem {
-      padding: 10px;
+      padding: 5px;
       width: 120px;
-      height: 67px;
-      border: 1px solid #ccc;
+      height: 72px;
+      border: 2px solid #ccc;
       margin-bottom: 10px;
       cursor: pointer;
       border-radius: 5px;
+      position: relative;
+      overflow: hidden;
 
       &.active {
         border-color: #1890ff;
+        box-shadow: 0 0 8px rgba(24, 144, 255, 0.3);
+      }
+
+      &:hover {
+        border-color: #40a9ff;
       }
     }
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .thumbnailBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .thumbnailElements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .thumbnailIndex {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    z-index: 3;
+    line-height: 1;
   }
 }

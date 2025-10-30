@@ -57,8 +57,11 @@ const Canvas: React.FC = () => {
         className="canvas-container"
         style={{ 
           position: 'relative',
-          width: '80%',
-          height: '80%',
+          width: 'min(80vw, calc((100vh - 80px) * 0.8 * 5/3))',
+          height: 'min(80vh - 64px, calc(80vw * 3/5))',
+          maxWidth: '1000px',
+          maxHeight: '600px',
+          aspectRatio: '5/3',
           border: '1px solid #e5e7eb',
           backgroundColor: currentSlide?.background?.color || '#ffffff',
           backgroundImage: currentSlide?.background?.image ? `url(${currentSlide.background.image})` : 'none',
