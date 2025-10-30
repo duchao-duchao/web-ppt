@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
+    "@leafer-in/editor": "^1.9.12",
+    "@leafer-in/html": "^1.9.12",
     "antd": "^5.27.6",
     "html2canvas": "^1.4.1",
     "leafer-ui": "^1.9.12",
