@@ -8,7 +8,7 @@ const SlideList = () => {
   return (
     <div className={styles.slideList}>
       <div className={styles.actions}>
-        <Button onClick={addSlide} type="primary" block>添加幻灯片</Button>
+        <Button onClick={addSlide} block style={{borderRadius: 5}}>添加幻灯片</Button>
       </div>
       <div className={styles.list}>
         {slides.map((slide, index) => (
@@ -18,7 +18,7 @@ const SlideList = () => {
             onClick={() => setCurrentSlideIndex(index)}
           >
             {index + 1}
-            <Button
+            {/* <Button
               className={styles.deleteButton}
               size="small"
               danger
@@ -28,7 +28,7 @@ const SlideList = () => {
               }}
             >
               删除
-            </Button>
+            </Button> */}
           </div>
         ))}
       </div>

@@ -144,6 +144,76 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
     }
   }, [isDragging, isResizing, handleMouseMove, handleMouseUp]);
 
+  // 渲染SVG图形
+  const renderShape = () => {
+    const shapeType = element.content || 'circle';
+    const fill = element.style?.fill || '#4096ff';
+    const stroke = element.style?.stroke || '#1677ff';
+    const strokeWidth = element.style?.strokeWidth || 2;
+
+    const baseStyle: React.CSSProperties = {
+      width: '100%',
+      height: '100%',
+    };
+
+    switch (shapeType) {
+      case 'circle':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="50" r="40" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'triangle':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,10 90,80 10,80" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'diamond':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,10 90,50 50,90 10,50" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'star':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'arrow-right':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="10,20 10,80 70,80 70,90 90,50 70,10 70,20" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'hexagon':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="25,15 75,15 90,50 75,85 25,85 10,50" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'heart':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M50,85 C50,85 20,60 20,40 C20,25 30,15 45,15 C47,15 50,20 50,20 C50,20 53,15 55,15 C70,15 80,25 80,40 C80,60 50,85 50,85 Z" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'pentagon':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,10 90,35 75,85 25,85 10,35" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      default:
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="50" r="40" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+    }
+  };
+
   // 渲染元素内容
   const renderElementContent = () => {
     const baseStyle: React.CSSProperties = {
@@ -154,17 +224,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
       background: 'transparent',
     };
 
-    switch (element.type) {
-      case 'rect':
-        return (
-          <div
-            style={{
-              ...baseStyle,
-              backgroundColor: element.style?.backgroundColor || '#ff0000',
-            }}
-          />
-        );
-        
+    switch (element.type) {    
       case 'text':
         return (
           <div
@@ -205,6 +265,9 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
             draggable={false}
           />
         );
+
+      case 'shape':
+        return renderShape();
         
       default:
         return null;

@@ -51,41 +51,43 @@ const Canvas: React.FC = () => {
   }, [handleContextMenuClose]);
 
   return (
-    <div 
-      ref={containerRef} 
-      className="canvas-container"
-      style={{ 
-        position: 'relative',
-        width: 800,
-        height: 600,
-        border: '1px solid #ccc',
-        backgroundColor: currentSlide?.background?.color || '#ffffff',
-        backgroundImage: currentSlide?.background?.image ? `url(${currentSlide.background.image})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        overflow: 'hidden',
-        cursor: 'default'
-      }}
-      onClick={handleCanvasClick}
-      onContextMenu={handleContextMenu}
-    >
-      {/* 渲染所有元素 */}
-      {currentSlide?.elements.map(element => (
-        <ElementRenderer
-          key={element.id}
-          element={element}
-          isSelected={selectedElementIds.includes(element.id)}
-          onSelect={handleElementSelect}
+    <div style={{ height: 'calc(100vh - 80px)', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div 
+        ref={containerRef} 
+        className="canvas-container"
+        style={{ 
+          position: 'relative',
+          width: '80%',
+          height: '80%',
+          border: '1px solid #e5e7eb',
+          backgroundColor: currentSlide?.background?.color || '#ffffff',
+          backgroundImage: currentSlide?.background?.image ? `url(${currentSlide.background.image})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          overflow: 'hidden',
+          cursor: 'default'
+        }}
+        onClick={handleCanvasClick}
+        onContextMenu={handleContextMenu}
+      >
+        {/* 渲染所有元素 */}
+        {currentSlide?.elements.map(element => (
+          <ElementRenderer
+            key={element.id}
+            element={element}
+            isSelected={selectedElementIds.includes(element.id)}
+            onSelect={handleElementSelect}
+          />
+        ))}
+        
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          visible={contextMenu.visible}
+          onClose={handleContextMenuClose}
+          onSelect={handleContextMenuSelect}
         />
-      ))}
-      
-      <ContextMenu
-        x={contextMenu.x}
-        y={contextMenu.y}
-        visible={contextMenu.visible}
-        onClose={handleContextMenuClose}
-        onSelect={handleContextMenuSelect}
-      />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-export type ElementType = 'text' | 'rect' | 'image';
+export type ElementType = 'text' | 'image' | 'shape';
 
 export interface PPTElement {
   id: string;
@@ -8,7 +8,7 @@ export interface PPTElement {
   width: number;
   height: number;
   rotation?: number;
-  content?: string; // For text and image src
+  content?: string; // For text, image src, and shape type
   style?: ElementStyle;
   x?: number;
   y?: number;
@@ -22,6 +22,10 @@ export interface ElementStyle {
   fontStyle?: 'normal' | 'italic';
   textDecoration?: 'none' | 'underline';
   textAlign?: 'left' | 'center' | 'right';
+  // SVG相关样式
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
 }
 
 export interface Slide {
