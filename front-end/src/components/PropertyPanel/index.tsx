@@ -5,13 +5,57 @@ import { usePresentationStore } from '@/stores/presentationStore';
 const { Title, Text } = Typography;
 
 const PropertyPanel = () => {
-  const { selectedElementIds, slides, currentSlideIndex, updateElement } = usePresentationStore();
+  const { selectedElementIds, slides, currentSlideIndex, updateElement, updateCurrentSlide } = usePresentationStore();
 
+  // 如果没有选中元素，显示画布背景设置
   if (selectedElementIds.length !== 1) {
+    const currentSlide = slides[currentSlideIndex];
+
+    const handleBackgroundColorChange = (color: any) => {
+      const colorValue = typeof color === 'string' ? color : color.toHexString();
+      updateCurrentSlide({ 
+        background: { 
+          ...currentSlide.background, 
+          color: colorValue 
+        } 
+      });
+    };
+
+    const handleBackgroundImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      updateCurrentSlide({ 
+        background: { 
+          ...currentSlide.background, 
+          image: e.target.value 
+        } 
+      });
+    };
+
     return (
-      <div style={{ textAlign: 'center', color: '#999', padding: '40px 0' }}>
-        <Text type="secondary">请选择一个元素</Text>
-      </div>
+      <Card 
+        style={{ height: '100%' }}
+        bodyStyle={{ padding: '16px' }}
+      >
+        <Form layout="vertical" size="small">
+          <Title level={5} style={{ margin: '0 0 12px 0', fontSize: '14px' }}>背景样式</Title>
+          
+          <Form.Item label="背景颜色" style={{ marginBottom: '16px' }}>
+            <ColorPicker
+              value={currentSlide.background?.color || '#ffffff'}
+              onChange={handleBackgroundColorChange}
+              showText
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+
+          <Form.Item label="背景图片URL" style={{ marginBottom: '16px' }}>
+            <Input
+              value={currentSlide.background?.image || ''}
+              onChange={handleBackgroundImageChange}
+              placeholder="请输入背景图片URL"
+            />
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 
