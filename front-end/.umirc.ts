@@ -7,6 +7,7 @@ export default defineConfig({
     { path: "/preview", component: "preview" },
   ],
   npmClient: 'pnpm',
+  publicPath: '/web-ppt/',
   // chainWebpack(memo) {
   //   memo.plugin('webpack-theme-color-replacer').use(ThemeColorReplacer, [
   //     {
