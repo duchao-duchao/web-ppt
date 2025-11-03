@@ -1,4 +1,4 @@
-export type ElementType = 'text' | 'image' | 'shape';
+export type ElementType = 'text' | 'image' | 'shape' | 'line';
 
 export interface PPTElement {
   id: string;
@@ -26,6 +26,9 @@ export interface ElementStyle {
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
+  // 线条相关样式
+  strokeDasharray?: string; // 虚线样式，如 "5,5" 表示虚线
+  strokeLinecap?: 'butt' | 'round' | 'square'; // 线条端点样式
 }
 
 export interface Slide {

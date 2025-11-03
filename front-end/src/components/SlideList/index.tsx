@@ -66,6 +66,33 @@ const SlideThumbnail: React.FC<{ slide: Slide; scale: number; slideIndex: number
             {renderShapeThumbnail(shapeType, fill, stroke, strokeWidth)}
           </div>
         );
+
+      case 'line':
+        const lineStroke = element.style?.stroke || '#000000';
+        const lineStrokeWidth = (element.style?.strokeWidth || 2) * scale;
+        const strokeDasharray = element.style?.strokeDasharray || '';
+        const strokeLinecap = element.style?.strokeLinecap || 'round';
+
+        return (
+          <div key={element.id} style={elementStyle}>
+            <svg 
+              style={{ width: '100%', height: '100%' }} 
+              viewBox={`0 0 ${element.width} ${element.height}`} 
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="0"
+                y1={element.height / 2}
+                x2={element.width}
+                y2={element.height / 2}
+                stroke={lineStroke}
+                strokeWidth={lineStrokeWidth}
+                strokeDasharray={strokeDasharray}
+                strokeLinecap={strokeLinecap}
+              />
+            </svg>
+          </div>
+        );
       
       default:
         return null;

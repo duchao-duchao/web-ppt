@@ -144,6 +144,33 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
     }
   }, [isDragging, isResizing, handleMouseMove, handleMouseUp]);
 
+  // 渲染线条
+  const renderLine = () => {
+    const stroke = element.style?.stroke || '#000000';
+    const strokeWidth = element.style?.strokeWidth || 2;
+    const strokeDasharray = element.style?.strokeDasharray || '';
+    const strokeLinecap = element.style?.strokeLinecap || 'round';
+
+    return (
+      <svg 
+        style={{ width: '100%', height: '100%' }} 
+        viewBox={`0 0 ${element.width} ${element.height}`} 
+        preserveAspectRatio="none"
+      >
+        <line
+          x1="0"
+          y1={element.height / 2}
+          x2={element.width}
+          y2={element.height / 2}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+          strokeDasharray={strokeDasharray}
+          strokeLinecap={strokeLinecap}
+        />
+      </svg>
+    );
+  };
+
   // 渲染SVG图形
   const renderShape = () => {
     const shapeType = element.content || 'circle';
@@ -268,6 +295,9 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
 
       case 'shape':
         return renderShape();
+
+      case 'line':
+        return renderLine();
         
       default:
         return null;

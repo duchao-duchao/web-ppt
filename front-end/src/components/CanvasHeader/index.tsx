@@ -36,6 +36,24 @@ const Header: React.FC = () => {
     execute(command);
   };
 
+  const addLine = () => {
+    const command = new AddElementCommand({
+      type: 'line',
+      left: 200,
+      top: 200,
+      width: 200,
+      height: 2, // 线条的高度设为很小的值
+      content: '', // 线条不需要内容
+      style: { 
+        stroke: '#000000', 
+        strokeWidth: 2,
+        strokeLinecap: 'round',
+        strokeDasharray: '' // 默认实线
+      },
+    });
+    execute(command);
+  };
+
   const handlePreview = () => {
     window.open('/preview');
   };
@@ -109,7 +127,7 @@ const Header: React.FC = () => {
     <div style={{ padding: '11px', backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Space>
         <div style={{ cursor: 'pointer' }} onClick={addText}>
-          <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M8 10.9333L8 6H40V10.9333" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M24 6V42" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 42H32" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M8 10.9333L8 6H40V10.9333" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M24 6V42" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M16 42H32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path></svg>
         </div>
         <Popover 
           content={shapePopoverContent}
@@ -117,9 +135,12 @@ const Header: React.FC = () => {
           placement='bottomRight'
         >
           <div style={{ cursor: 'pointer' }}>
-            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" stroke-width="4" stroke-linejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"></path></svg>
+            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path></svg>
           </div>
         </Popover>
+        <div style={{ cursor: 'pointer' }} onClick={addLine}>
+          <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M6 24L42 24" stroke="currentColor" strokeWidth="4" strokeLinecap="round"></path></svg>
+        </div>
       </Space>
       <div>
         {/* <Button onClick={handlePreview} style={{ marginRight: '8px' }}>预览</Button>
