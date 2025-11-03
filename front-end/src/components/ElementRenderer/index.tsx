@@ -232,6 +232,283 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
             <polygon points="50,10 90,35 75,85 25,85 10,35" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
           </svg>
         );
+      // 基础几何图形
+      case 'rectangle':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="15" y="30" width="70" height="40" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'square':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="25" y="25" width="50" height="50" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'ellipse':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <ellipse cx="50" cy="50" rx="40" ry="25" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'rounded-rectangle':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="15" y="30" width="70" height="40" rx="8" ry="8" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      // 箭头图形
+      case 'arrow-left':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="90,20 90,80 30,80 30,90 10,50 30,10 30,20" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'arrow-up':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="20,90 80,90 80,30 90,30 50,10 10,30 20,30" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'arrow-down':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="20,10 80,10 80,70 90,70 50,90 10,70 20,70" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'double-arrow':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="10,50 25,35 25,42 75,42 75,35 90,50 75,65 75,58 25,58 25,65" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      // 特殊图形
+      case 'cloud':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M75,60 C85,60 90,54 90,46 C90,38 85,32 75,32 C73,24 65,18 55,18 C45,18 37,24 35,32 C27,32 20,38 20,46 C20,54 27,60 35,60 L75,60 Z" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'speech-bubble':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M15,15 L85,15 C90,15 95,20 95,25 L95,55 C95,60 90,65 85,65 L40,65 L25,80 L35,65 L20,65 C15,65 10,60 10,55 L10,25 C10,20 15,15 20,15 Z" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'thought-bubble':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <ellipse cx="55" cy="35" rx="32" ry="25" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+            <circle cx="35" cy="65" r="8" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+            <circle cx="25" cy="75" r="4" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'cross':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="40,10 60,10 60,40 90,40 90,60 60,60 60,90 40,90 40,60 10,60 10,40 40,40" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'plus':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M45,15 L55,15 L55,45 L85,45 L85,55 L55,55 L55,85 L45,85 L45,55 L15,55 L15,45 L45,45 Z" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'minus':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="15" y="45" width="70" height="10" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'octagon':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="35,15 65,15 85,35 85,65 65,85 35,85 15,65 15,35" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'trapezoid':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="30,25 70,25 85,75 15,75" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'parallelogram':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="25,65 15,35 75,35 85,65" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'lightning':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="55,10 35,45 50,45 45,90 65,55 50,55" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'gear':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M50,30 C60,30 70,40 70,50 C70,60 60,70 50,70 C40,70 30,60 30,50 C30,40 40,30 50,30 Z M45,10 L55,10 L57,20 L65,22 L70,15 L77,22 L70,29 L72,37 L82,39 L82,49 L72,51 L70,59 L77,66 L70,73 L65,66 L57,68 L55,78 L45,78 L43,68 L35,66 L30,73 L23,66 L30,59 L28,51 L18,49 L18,39 L28,37 L30,29 L23,22 L30,15 L35,22 L43,20 Z" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      // 更多箭头图形
+      case 'curved-arrow':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M20,70 Q50,20 80,50 L70,60 L90,70 L70,80 L80,70 Q50,40 30,70" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'circular-arrow':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M50,15 A35,35 0 1,1 15,50 L25,40 L15,30 L5,40 L15,50 A35,35 0 1,0 50,15" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'u-turn-arrow':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M30,80 L30,40 Q30,20 50,20 Q70,20 70,40 L70,60 L60,50 L80,60 L60,70 L70,60 L70,40 Q70,30 50,30 Q30,30 30,40 L30,80" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'arrow-up-right':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="40,80 30,70 60,40 40,40 40,20 80,20 80,60 60,60 60,40 30,70" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'arrow-down-left':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="60,20 70,30 40,60 60,60 60,80 20,80 20,40 40,40 40,60 70,30" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      // 常用符号图形
+      case 'checkmark':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M15,50 L35,70 L85,20 L75,10 L35,50 L25,40 Z" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'x-mark':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M25,25 L75,75 M75,25 L25,75" fill="none" stroke="#ff4d4f" strokeWidth={strokeWidth * 2} strokeLinecap="round"/>
+          </svg>
+        );
+      case 'warning':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,10 90,80 10,80" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+            <rect x="45" y="35" width="10" height="25" fill="white"/>
+            <circle cx="50" cy="70" r="4" fill="white"/>
+          </svg>
+        );
+      case 'info':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="50" r="40" fill="#1890ff" stroke="#096dd9" strokeWidth={strokeWidth}/>
+            <circle cx="50" cy="35" r="4" fill="white"/>
+            <rect x="45" y="50" width="10" height="25" fill="white"/>
+          </svg>
+        );
+      case 'question':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="50" r="40" fill="#722ed1" stroke="#531dab" strokeWidth={strokeWidth}/>
+            <path d="M40,40 Q40,30 50,30 Q60,30 60,40 Q60,45 50,50 L50,55" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+            <circle cx="50" cy="65" r="3" fill="white"/>
+          </svg>
+        );
+      // 流程图专用图形
+      case 'process-rectangle':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="10" y="30" width="80" height="40" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'decision-diamond':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,15 85,50 50,85 15,50" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'start-end-oval':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <ellipse cx="50" cy="50" rx="40" ry="25" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'document':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M20,15 L70,15 L80,25 L80,85 L20,85 Z M70,15 L70,25 L80,25" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'database':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <ellipse cx="50" cy="25" rx="35" ry="12" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+            <path d="M15,25 L15,75 Q15,87 50,87 Q85,87 85,75 L85,25" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+            <ellipse cx="50" cy="50" rx="35" ry="6" fill="none" stroke={stroke} strokeWidth={strokeWidth}/>
+            <ellipse cx="50" cy="65" rx="35" ry="6" fill="none" stroke={stroke} strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      // 装饰性图形
+      case 'flower':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="30" r="12" fill="#ff85c0" stroke="#f759ab" strokeWidth={strokeWidth}/>
+            <circle cx="70" cy="50" r="12" fill="#ff85c0" stroke="#f759ab" strokeWidth={strokeWidth}/>
+            <circle cx="50" cy="70" r="12" fill="#ff85c0" stroke="#f759ab" strokeWidth={strokeWidth}/>
+            <circle cx="30" cy="50" r="12" fill="#ff85c0" stroke="#f759ab" strokeWidth={strokeWidth}/>
+            <circle cx="50" cy="50" r="8" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'leaf':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M50,80 Q30,60 30,40 Q30,20 50,20 Q70,20 70,40 Q70,60 50,80 Z M50,80 Q50,50 70,40" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'sun':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <circle cx="50" cy="50" r="16" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+            <g stroke="#faad14" strokeWidth="4" strokeLinecap="round">
+              <line x1="50" y1="10" x2="50" y2="20"/>
+              <line x1="50" y1="80" x2="50" y2="90"/>
+              <line x1="10" y1="50" x2="20" y2="50"/>
+              <line x1="80" y1="50" x2="90" y2="50"/>
+              <line x1="23" y1="23" x2="30" y2="30"/>
+              <line x1="70" y1="70" x2="77" y2="77"/>
+              <line x1="23" y1="77" x2="30" y2="70"/>
+              <line x1="70" y1="30" x2="77" y2="23"/>
+            </g>
+          </svg>
+        );
+      case 'moon':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M60,15 A36,36 0 1,0 60,85 A30,30 0 1,1 60,15 Z" fill="#722ed1" stroke="#531dab" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'house':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="50,15 15,45 15,85 85,85 85,45" fill={fill} stroke={stroke} strokeWidth={strokeWidth}/>
+            <rect x="40" y="60" width="20" height="25" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+            <rect x="60" y="40" width="12" height="12" fill="#faad14" stroke="#d48806" strokeWidth={strokeWidth}/>
+          </svg>
+        );
+      case 'tree':
+        return (
+          <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="45" y="70" width="10" height="20" fill="#8b4513" stroke="#654321" strokeWidth={strokeWidth}/>
+            <circle cx="50" cy="40" r="24" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+            <circle cx="35" cy="50" r="16" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+            <circle cx="65" cy="50" r="16" fill="#52c41a" stroke="#389e0d" strokeWidth={strokeWidth}/>
+          </svg>
+        );
       default:
         return (
           <svg style={baseStyle} viewBox="0 0 100 100" preserveAspectRatio="none">
