@@ -95,7 +95,16 @@ const Header: React.FC = () => {
   };
 
   const shapePopoverContent = (
-    <div style={{display: 'flex'}}>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(8, 1fr)',
+      gap: '8px',
+      padding: '12px',
+      // maxWidth: '400px',
+      backgroundColor: '#ffffff',
+      borderRadius: '8px',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+    }}>
       {shapes.map((shape) => (
         <div
           key={shape.type}
@@ -103,21 +112,41 @@ const Header: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '2px',
+            justifyContent: 'center',
+            padding: '8px',
+            minHeight: '40px',
+            minWidth: '40px',
             cursor: 'pointer',
-            transition: 'all 0.2s',
+            borderRadius: '6px',
+            border: '1px solid #e8e8e8',
+            backgroundColor: '#fafafa',
+            transition: 'all 0.2s ease-in-out',
+            position: 'relative',
           }}
           onClick={() => addShape(shape.type)}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f0f0f0';
+            e.currentTarget.style.backgroundColor = '#e6f4ff';
             e.currentTarget.style.borderColor = '#1677ff';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 4px 8px rgba(22, 119, 255, 0.2)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.borderColor = '#d9d9d9';
+            e.currentTarget.style.backgroundColor = '#fafafa';
+            e.currentTarget.style.borderColor = '#e8e8e8';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
           }}
+          title={shape.name}
         >
-          {shape.svg}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            width: '24px',
+            height: '24px'
+          }}>
+            {shape.svg}
+          </div>
         </div>
       ))}
     </div>
@@ -131,7 +160,7 @@ const Header: React.FC = () => {
         </div>
         <Popover 
           content={shapePopoverContent}
-          trigger="hover"
+          trigger="click"
           placement='bottomRight'
         >
           <div style={{ cursor: 'pointer' }}>
