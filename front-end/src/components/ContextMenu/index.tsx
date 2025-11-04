@@ -15,6 +15,9 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, visible, onClose, onSel
       <Menu.Item key="copy">复制</Menu.Item>
       <Menu.Item key="paste">粘贴</Menu.Item>
       <Menu.Item key="delete">删除</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="bringForward">上移一层</Menu.Item>
+      <Menu.Item key="sendBackward">下移一层</Menu.Item>
     </Menu>
   );
 

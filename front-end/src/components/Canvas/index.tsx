@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { usePresentationStore } from '@/stores/presentationStore';
 import ContextMenu from '@/components/ContextMenu';
 import ElementRenderer from '@/components/ElementRenderer';
@@ -7,7 +7,7 @@ const Canvas: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({ x: 0, y: 0, visible: false });
 
-  const { slides, currentSlideIndex, selectedElementIds, setSelectedElementIds, updateElement } = usePresentationStore();
+  const { slides, currentSlideIndex, selectedElementIds, setSelectedElementIds, updateElement, deleteElement, copyElements, pasteElements, bringForward, sendBackward } = usePresentationStore();
   const currentSlide = slides[currentSlideIndex];
 
   // 处理画布点击
@@ -47,8 +47,46 @@ const Canvas: React.FC = () => {
   }, [contextMenu]);
 
   const handleContextMenuSelect = useCallback((key: string) => {
+    if (key === 'copy') {
+      copyElements();
+    } else if (key === 'paste') {
+      pasteElements();
+    } else if (key === 'delete') {
+      selectedElementIds.forEach(id => deleteElement(id));
+    } else if (key === 'bringForward') {
+      bringForward();
+    } else if (key === 'sendBackward') {
+      sendBackward();
+    }
     handleContextMenuClose();
-  }, [handleContextMenuClose]);
+  }, [handleContextMenuClose, copyElements, pasteElements, deleteElement, bringForward, sendBackward, selectedElementIds]);
+
+  // 键盘快捷键处理
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (selectedElementIds.length) {
+        selectedElementIds.forEach(id => deleteElement(id));
+      }
+    }
+
+    const isCtrlOrCmd = e.ctrlKey || (e as any).metaKey;
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'c') {
+      if (selectedElementIds.length) {
+        copyElements();
+      }
+    }
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'v') {
+      pasteElements();
+    }
+  }, [selectedElementIds, deleteElement, copyElements, pasteElements]);
+
+  // 绑定/解绑键盘事件
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
