@@ -10,6 +10,8 @@ const Header: React.FC = () => {
   const { slides, currentSlideIndex, selectedElementIds, loadState, name, setName } = usePresentationStore();
 
   const handlePreview = () => {
+    const state = usePresentationStore.getState();
+    localStorage.setItem('presentation-for-preview', JSON.stringify(state));
     window.open('/preview');
   };
 
@@ -27,84 +29,84 @@ const Header: React.FC = () => {
 
   const handleExportPPT = () => {
     return
-    const pptx = new pptxgen();
-    slides.forEach(slide => {
-      const pptxSlide = pptx.addSlide();
-      if (slide.background?.color) {
-        pptxSlide.background = { color: slide.background.color.replace('#', '') };
-      }
+    // const pptx = new pptxgen();
+    // slides.forEach(slide => {
+    //   const pptxSlide = pptx.addSlide();
+    //   if (slide.background?.color) {
+    //     pptxSlide.background = { color: slide.background.color.replace('#', '') };
+    //   }
 
-      slide.elements.forEach(element => {
-        const props = {
-          x: (element.left || 0) / 96,
-          y: (element.top || 0) / 96,
-          w: element.width / 96,
-          h: element.height / 96,
-        };
-        if (element.type === 'text' && element.content) {
-          const { color, fill, ...rest } = element.style
-          const textOptions: TextPropsOptions = {
-            ...rest,
-            x: pxToInches(element.left),
-            y: pxToInches(element.top),
-            w: pxToInches(element.width),
-            h: pxToInches(element.height),
-            color: (fill as string || color as string || '#000000').replace('#', ''),
-            valign: 'middle',
-            align: 'center',
-            fontSize: pxToPt(element.style.fontSize as number || 28),
-          };
-          pptSlide.addText(element.content, textOptions);
-        } else if (element.type === 'image') {
-          pptSlide.addImage({
-            path: element.src,
-            x: pxToInches(element.left),
-            y: pxToInches(element.top),
-            w: pxToInches(element.width),
-            h: pxToInches(element.height),
-          });
-        } else if (element.type === 'shape') {
-          const shapeType = element.shape;
-          const options = {
-            x: pxToInches(element.left),
-            y: pxToInches(element.top),
-            w: pxToInches(element.width),
-            h: pxToInches(element.height),
-            fill: (element.style.backgroundColor || '#ffffff').replace('#', ''),
-          };
-          switch (shapeType) {
-            case 'rectangle':
-              pptSlide.addShape(pptx.shapes.RECTANGLE, options);
-              break;
-            case 'circle':
-              pptSlide.addShape(pptx.shapes.OVAL, options);
-              break;
-            case 'triangle':
-              pptSlide.addShape(pptx.shapes.TRIANGLE, options);
-              break;
-            case 'diamond':
-              pptSlide.addShape(pptx.shapes.DIAMOND, options);
-              break;
-            case 'arrow-right':
-              pptSlide.addShape(pptx.shapes.RIGHT_ARROW, options);
-              break;
-            case 'hexagon':
-              pptSlide.addShape(pptx.shapes.HEXAGON, options);
-              break;
-            case 'pentagon':
-              pptSlide.addShape(pptx.shapes.PENTAGON, options);
-              break;
-            case 'star':
-              pptSlide.addShape(pptx.shapes.STAR_5_POINT, options);
-              break;
-            default:
-              break;
-          }
-        }
-      });
-    });
-    const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
-    pptx.writeFile({ fileName: `${fileBase}.pptx` });
+    //   slide.elements.forEach(element => {
+    //     const props = {
+    //       x: (element.left || 0) / 96,
+    //       y: (element.top || 0) / 96,
+    //       w: element.width / 96,
+    //       h: element.height / 96,
+    //     };
+    //     if (element.type === 'text' && element.content) {
+    //       const { color, fill, ...rest } = element.style
+    //       const textOptions: TextPropsOptions = {
+    //         ...rest,
+    //         x: pxToInches(element.left),
+    //         y: pxToInches(element.top),
+    //         w: pxToInches(element.width),
+    //         h: pxToInches(element.height),
+    //         color: (fill as string || color as string || '#000000').replace('#', ''),
+    //         valign: 'middle',
+    //         align: 'center',
+    //         fontSize: pxToPt(element.style.fontSize as number || 28),
+    //       };
+    //       pptSlide.addText(element.content, textOptions);
+    //     } else if (element.type === 'image') {
+    //       pptSlide.addImage({
+    //         path: element.src,
+    //         x: pxToInches(element.left),
+    //         y: pxToInches(element.top),
+    //         w: pxToInches(element.width),
+    //         h: pxToInches(element.height),
+    //       });
+    //     } else if (element.type === 'shape') {
+    //       const shapeType = element.shape;
+    //       const options = {
+    //         x: pxToInches(element.left),
+    //         y: pxToInches(element.top),
+    //         w: pxToInches(element.width),
+    //         h: pxToInches(element.height),
+    //         fill: (element.style.backgroundColor || '#ffffff').replace('#', ''),
+    //       };
+    //       switch (shapeType) {
+    //         case 'rectangle':
+    //           pptSlide.addShape(pptx.shapes.RECTANGLE, options);
+    //           break;
+    //         case 'circle':
+    //           pptSlide.addShape(pptx.shapes.OVAL, options);
+    //           break;
+    //         case 'triangle':
+    //           pptSlide.addShape(pptx.shapes.TRIANGLE, options);
+    //           break;
+    //         case 'diamond':
+    //           pptSlide.addShape(pptx.shapes.DIAMOND, options);
+    //           break;
+    //         case 'arrow-right':
+    //           pptSlide.addShape(pptx.shapes.RIGHT_ARROW, options);
+    //           break;
+    //         case 'hexagon':
+    //           pptSlide.addShape(pptx.shapes.HEXAGON, options);
+    //           break;
+    //         case 'pentagon':
+    //           pptSlide.addShape(pptx.shapes.PENTAGON, options);
+    //           break;
+    //         case 'star':
+    //           pptSlide.addShape(pptx.shapes.STAR_5_POINT, options);
+    //           break;
+    //         default:
+    //           break;
+    //       }
+    //     }
+    //   });
+    // });
+    // const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
+    // pptx.writeFile({ fileName: `${fileBase}.pptx` });
   };
 
   const handleLoad = (file: File) => {

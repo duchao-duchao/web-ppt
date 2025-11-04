@@ -5,8 +5,15 @@ import { Button, Space } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const PreviewPage = () => {
-  const { slides, setCurrentSlideIndex, currentSlideIndex } = usePresentationStore();
+  const { slides, setCurrentSlideIndex, currentSlideIndex, loadState } = usePresentationStore();
   const [slideIndex, setSlideIndex] = useState(currentSlideIndex);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem('presentation-for-preview');
+    if (savedState) {
+      loadState(JSON.parse(savedState));
+    }
+  }, [loadState]);
 
   useEffect(() => {
     setCurrentSlideIndex(slideIndex);
