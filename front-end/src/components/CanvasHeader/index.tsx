@@ -6,6 +6,7 @@ import { UndoOutlined, RedoOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 const Header: React.FC = () => {
+  const [shapePopoverOpen, setShapePopoverOpen] = React.useState(false);
   const { addElement } = usePresentationStore();
   const { undo, redo, pastStates, futureStates } = usePresentationStore.temporal.getState();
 
@@ -31,6 +32,11 @@ const Header: React.FC = () => {
       content: shapeType, // 使用content字段存储图形类型
       style: { fill: '#4096ff', stroke: '#1677ff', strokeWidth: 2 },
     });
+  };
+
+  const handleShapeClick = (shapeType: string) => {
+    addShape(shapeType);
+    setShapePopoverOpen(false);
   };
 
   const addLine = () => {
@@ -100,7 +106,7 @@ const Header: React.FC = () => {
             transition: 'all 0.2s ease-in-out',
             position: 'relative',
           }}
-          onClick={() => addShape(shape.type)}
+          onClick={() => handleShapeClick(shape.type)}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#e6f4ff';
             e.currentTarget.style.borderColor = '#1677ff';
@@ -141,6 +147,8 @@ const Header: React.FC = () => {
           content={shapePopoverContent}
           trigger="click"
           placement='bottomRight'
+          open={shapePopoverOpen}
+          onOpenChange={setShapePopoverOpen}
         >
           <div className={styles.iconWrapper}>
             <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path></svg>
