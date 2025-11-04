@@ -33,276 +33,216 @@ export const usePresentationStore = create<PresentationState>()(
   persist(
     temporal((set, get) => ({
       slides: [
+        // 封面：全屏背景图 + 半透明标题卡片
         {
           id: uuidv4(),
+          background: {
+            color: '#000000',
+            image: 'https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=1200&q=60'
+          },
           elements: [
             {
               id: uuidv4(),
-              type: 'text',
-              content: '项目汇报',
-              x: 100,
-              y: 150,
-              width: 400,
-              height: 80,
+              type: 'shape',
+              content: 'rounded-rectangle',
+              x: 80,
+              y: 140,
+              width: 640,
+              height: 180,
               style: {
-                fontSize: 48,
-                fontWeight: 'bold',
-                color: '#1a1a1a',
-                textAlign: 'center',
-                fontFamily: 'Microsoft YaHei'
+                fill: 'rgba(255,255,255,0.85)',
+                stroke: 'transparent',
+                strokeWidth: 0
               }
             },
             {
               id: uuidv4(),
               type: 'text',
-              content: '2024年第一季度工作总结',
+              content: '精美演示模板',
               x: 100,
-              y: 250,
-              width: 400,
+              y: 160,
+              width: 600,
+              height: 70,
+              style: {
+                fontSize: 44,
+                fontWeight: 'bold',
+                color: '#111111',
+                textAlign: 'center'
+              }
+            },
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '图文展示 · 极简风格',
+              x: 100,
+              y: 230,
+              width: 600,
+              height: 50,
+              style: {
+                fontSize: 20,
+                color: '#555555',
+                textAlign: 'center'
+              }
+            }
+          ]
+        },
+        // 文本+图片版式：左图右文
+        {
+          id: uuidv4(),
+          background: {
+            color: '#f7f9fc'
+          },
+          elements: [
+            {
+              id: uuidv4(),
+              type: 'image',
+              content: 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1000&q=60',
+              x: 60,
+              y: 80,
+              width: 360,
+              height: 240,
+              style: {}
+            },
+            {
+              id: uuidv4(),
+              type: 'shape',
+              content: 'rounded-rectangle',
+              x: 440,
+              y: 80,
+              width: 300,
+              height: 240,
+              style: {
+                fill: '#ffffff',
+                stroke: '#e0e4ef',
+                strokeWidth: 1
+              }
+            },
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '产品亮点',
+              x: 460,
+              y: 100,
+              width: 260,
               height: 40,
               style: {
-                fontSize: 24,
-                color: '#666666',
-                textAlign: 'center',
-                fontFamily: 'Microsoft YaHei'
+                fontSize: 26,
+                fontWeight: 'bold',
+                color: '#111111'
+              }
+            },
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '• 高质感视觉',
+              x: 460,
+              y: 150,
+              width: 260,
+              height: 28,
+              style: {
+                fontSize: 16,
+                color: '#444444'
+              }
+            },
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '• 响应式布局',
+              x: 460,
+              y: 182,
+              width: 260,
+              height: 28,
+              style: {
+                fontSize: 16,
+                color: '#444444'
+              }
+            },
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '• 易于编辑',
+              x: 460,
+              y: 214,
+              width: 260,
+              height: 28,
+              style: {
+                fontSize: 16,
+                color: '#444444'
+              }
+            }
+          ]
+        },
+        // 图片集锦：三张图片横排
+        {
+          id: uuidv4(),
+          background: {
+            color: '#ffffff'
+          },
+          elements: [
+            {
+              id: uuidv4(),
+              type: 'text',
+              content: '图片集锦',
+              x: 60,
+              y: 50,
+              width: 680,
+              height: 50,
+              style: {
+                fontSize: 32,
+                fontWeight: 'bold',
+                color: '#111111'
               }
             },
             {
               id: uuidv4(),
               type: 'shape',
-              shape: 'rectangle',
-              x: 200,
-              y: 320,
-              width: 200,
+              content: 'rectangle',
+              x: 60,
+              y: 100,
+              width: 120,
               height: 4,
               style: {
-                backgroundColor: '#1890ff',
-                borderColor: '#096dd9',
-                borderWidth: 0
-              }
-            }
-          ]
-        },
-        {
-          id: uuidv4(),
-          elements: [
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '核心成果',
-              x: 50,
-              y: 50,
-              width: 200,
-              height: 50,
-              style: {
-                fontSize: 32,
-                fontWeight: 'bold',
-                color: '#1a1a1a',
-                fontFamily: 'Microsoft YaHei'
+                fill: '#1677ff',
+                stroke: 'transparent',
+                strokeWidth: 0
               }
             },
             {
               id: uuidv4(),
-              type: 'shape',
-              shape: 'circle',
-              x: 80,
-              y: 130,
-              width: 60,
-              height: 60,
-              style: {
-                backgroundColor: '#52c41a',
-                borderColor: '#389e0d',
-                borderWidth: 2
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '用户增长',
-              x: 160,
+              type: 'image',
+              content: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60',
+              x: 60,
               y: 140,
-              width: 120,
-              height: 40,
-              style: {
-                fontSize: 20,
-                fontWeight: 'bold',
-                color: '#52c41a',
-                fontFamily: 'Microsoft YaHei'
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '新增用户 50,000+',
-              x: 160,
-              y: 175,
               width: 200,
-              height: 30,
-              style: {
-                fontSize: 16,
-                color: '#666666',
-                fontFamily: 'Microsoft YaHei'
-              }
+              height: 140,
+              style: {}
             },
             {
               id: uuidv4(),
-              type: 'shape',
-              shape: 'circle',
-              x: 80,
-              y: 230,
-              width: 60,
-              height: 60,
-              style: {
-                backgroundColor: '#1890ff',
-                borderColor: '#096dd9',
-                borderWidth: 2
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '营收提升',
-              x: 160,
-              y: 240,
-              width: 120,
-              height: 40,
-              style: {
-                fontSize: 20,
-                fontWeight: 'bold',
-                color: '#1890ff',
-                fontFamily: 'Microsoft YaHei'
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '同比增长 35%',
-              x: 160,
-              y: 275,
+              type: 'image',
+              content: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60',
+              x: 300,
+              y: 140,
               width: 200,
-              height: 30,
-              style: {
-                fontSize: 16,
-                color: '#666666',
-                fontFamily: 'Microsoft YaHei'
-              }
-            }
-          ]
-        },
-        {
-          id: uuidv4(),
-          elements: [
+              height: 140,
+              style: {}
+            },
             {
               id: uuidv4(),
-              type: 'text',
-              content: '未来展望',
-              x: 50,
-              y: 50,
+              type: 'image',
+              content: 'https://images.unsplash.com/photo-1487412912498-0447578fcca8?auto=format&fit=crop&w=800&q=60',
+              x: 540,
+              y: 140,
               width: 200,
-              height: 50,
-              style: {
-                fontSize: 32,
-                fontWeight: 'bold',
-                color: '#1a1a1a',
-                fontFamily: 'Microsoft YaHei'
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'shape',
-              shape: 'rounded-rectangle',
-              x: 60,
-              y: 130,
-              width: 420,
-              height: 80,
-              style: {
-                backgroundColor: '#f0f5ff',
-                borderColor: '#b8d4ff',
-                borderWidth: 1,
-                borderRadius: 8
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: 'Q2 目标规划',
-              x: 80,
-              y: 145,
-              width: 150,
-              height: 30,
-              style: {
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: '#1890ff',
-                fontFamily: 'Microsoft YaHei'
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '• 用户规模突破 100万\n• 产品功能全面升级\n• 市场拓展至新领域',
-              x: 80,
-              y: 175,
-              width: 380,
-              height: 60,
-              style: {
-                fontSize: 14,
-                color: '#333333',
-                fontFamily: 'Microsoft YaHei',
-                lineHeight: 1.5
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'shape',
-              shape: 'rounded-rectangle',
-              x: 60,
-              y: 240,
-              width: 420,
-              height: 80,
-              style: {
-                backgroundColor: '#fff7e6',
-                borderColor: '#ffd591',
-                borderWidth: 1,
-                borderRadius: 8
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '战略重点',
-              x: 80,
-              y: 255,
-              width: 150,
-              height: 30,
-              style: {
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: '#fa8c16',
-                fontFamily: 'Microsoft YaHei'
-              }
-            },
-            {
-              id: uuidv4(),
-              type: 'text',
-              content: '• 技术创新驱动发展\n• 用户体验持续优化\n• 团队能力全面提升',
-              x: 80,
-              y: 285,
-              width: 380,
-              height: 60,
-              style: {
-                fontSize: 14,
-                color: '#333333',
-                fontFamily: 'Microsoft YaHei',
-                lineHeight: 1.5
-              }
+              height: 140,
+              style: {}
             }
           ]
         }
       ],
       currentSlideIndex: 0,
       selectedElementIds: [],
-      name: '项目汇报模板',
+      name: '精美PPT模板',
       copiedElements: [],
 
       addSlide: () => {

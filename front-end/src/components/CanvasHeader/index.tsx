@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Upload, Popover, Button } from 'antd';
+import { Space, Upload, Popover, Button, Tooltip } from 'antd';
 import { usePresentationStore } from '@/stores/presentationStore';
 import { shapes } from '@/components/ElementRenderer/shape';
 import { UndoOutlined, RedoOutlined } from '@ant-design/icons';
@@ -138,11 +138,17 @@ const Header: React.FC = () => {
   return (
     <div style={{ padding: '11px', backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Space size={16}>
-        <Button type="text" className={styles.iconWrapper} icon={<UndoOutlined />} onClick={() => undo()} disabled={!pastStates.length} />
-        <Button type="text" className={styles.iconWrapper} icon={<RedoOutlined />} onClick={() => redo()} disabled={!futureStates.length} />
-        <div className={styles.iconWrapper} onClick={addText}>
-          <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M8 10.9333L8 6H40V10.9333" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M24 6V42" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M16 42H32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-        </div>
+        <Tooltip title="撤销">
+          <Button type="text" className={styles.iconWrapper} icon={<UndoOutlined />} onClick={() => undo()} disabled={!pastStates.length} />
+        </Tooltip>
+        <Tooltip title="重做">
+          <Button type="text" className={styles.iconWrapper} icon={<RedoOutlined />} onClick={() => redo()} disabled={!futureStates.length} />
+        </Tooltip>
+        <Tooltip title="插入文本">
+          <div className={styles.iconWrapper} onClick={addText}>
+            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M8 10.9333L8 6H40V10.9333" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M24 6V42" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path><path d="M16 42H32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+          </div>
+        </Tooltip>
         <Popover 
           content={shapePopoverContent}
           trigger="click"
@@ -150,9 +156,11 @@ const Header: React.FC = () => {
           open={shapePopoverOpen}
           onOpenChange={setShapePopoverOpen}
         >
-          <div className={styles.iconWrapper}>
-            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path></svg>
-          </div>
+          <Tooltip title="插入形状">
+            <div className={styles.iconWrapper}>
+              <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path></svg>
+            </div>
+          </Tooltip>
         </Popover>
         {/* 插入图片 */}
         <Upload
@@ -160,17 +168,21 @@ const Header: React.FC = () => {
           showUploadList={false}
           accept="image/*"
         >
-          <div className={styles.iconWrapper} title="插入图片">
-            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none">
-              <rect x="6" y="8" width="36" height="28" rx="2" stroke="currentColor" strokeWidth="4" />
-              <circle cx="16" cy="18" r="4" fill="currentColor" />
-              <path d="M12 32 L22 22 L30 30 L36 24 L42 32" fill="none" stroke="currentColor" strokeWidth="4" />
-            </svg>
-          </div>
+          <Tooltip title="插入图片">
+            <div className={styles.iconWrapper}>
+              <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none">
+                <rect x="6" y="8" width="36" height="28" rx="2" stroke="currentColor" strokeWidth="4" />
+                <circle cx="16" cy="18" r="4" fill="currentColor" />
+                <path d="M12 32 L22 22 L30 30 L36 24 L42 32" fill="none" stroke="currentColor" strokeWidth="4" />
+              </svg>
+            </div>
+          </Tooltip>
         </Upload>
-        <div className={styles.iconWrapper} onClick={addLine}>
-          <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M6 24L42 24" stroke="currentColor" strokeWidth="4" strokeLinecap="round"></path></svg>
-        </div>
+        <Tooltip title="插入线条">
+          <div className={styles.iconWrapper} onClick={addLine}>
+            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M6 24L42 24" stroke="currentColor" strokeWidth="4" strokeLinecap="round"></path></svg>
+          </div>
+        </Tooltip>
       </Space>
     </div>
   );
