@@ -54,6 +54,29 @@ const Header: React.FC = () => {
     execute(command);
   };
 
+  // 添加图片元素（通过 Upload 选择图片）
+  const addImage = (file: File) => {
+    if (!file) return false;
+    const url = URL.createObjectURL(file);
+
+    // 默认尺寸，保持常见比例（4:3）
+    const defaultWidth = 240;
+    const defaultHeight = 180;
+
+    const command = new AddElementCommand({
+      type: 'image',
+      left: 220,
+      top: 220,
+      width: defaultWidth,
+      height: defaultHeight,
+      content: url, // 使用本地预览 URL
+      style: { },
+    });
+    execute(command);
+    // 不上传到服务器，阻止默认上传行为
+    return false;
+  };
+
   const handlePreview = () => {
     window.open('/preview');
   };
@@ -167,6 +190,20 @@ const Header: React.FC = () => {
             <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M19 32C11.268 32 5 25.732 5 18C5 10.268 11.268 4 19 4C26.732 4 33 10.268 33 18" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path><path d="M44 18H18V44H44V18Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"></path></svg>
           </div>
         </Popover>
+        {/* 插入图片 */}
+        <Upload
+          beforeUpload={addImage}
+          showUploadList={false}
+          accept="image/*"
+        >
+          <div style={{ cursor: 'pointer' }} title="插入图片">
+            <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none">
+              <rect x="6" y="8" width="36" height="28" rx="2" stroke="currentColor" strokeWidth="4" />
+              <circle cx="16" cy="18" r="4" fill="currentColor" />
+              <path d="M12 32 L22 22 L30 30 L36 24 L42 32" fill="none" stroke="currentColor" strokeWidth="4" />
+            </svg>
+          </div>
+        </Upload>
         <div style={{ cursor: 'pointer' }} onClick={addLine}>
           <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none"><path d="M6 24L42 24" stroke="currentColor" strokeWidth="4" strokeLinecap="round"></path></svg>
         </div>
