@@ -1,36 +1,110 @@
 import React from 'react';
-import { Button, Upload } from 'antd';
-import html2canvas from 'html2canvas';
+import { Button, Upload, Dropdown, Space, Input } from 'antd';
+import { EyeOutlined, DownloadOutlined, UploadOutlined, EditOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+// import html2canvas from 'html2canvas';
 import { usePresentationStore } from '@/stores/presentationStore';
+import pptxgen from 'pptxgenjs';
 
 const Header: React.FC = () => {
-  const { slides, currentSlideIndex, selectedElementIds, loadState } = usePresentationStore();
+  const { slides, currentSlideIndex, selectedElementIds, loadState, name, setName } = usePresentationStore();
 
   const handlePreview = () => {
     window.open('/preview');
   };
 
-  const handleDownload = () => {
-    const canvas = document.querySelector('.leafer-canvas') as HTMLElement;
-    if (canvas) {
-      html2canvas(canvas).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'slide.png';
-        link.href = canvas.toDataURL();
-        link.click();
-      });
-    }
-  };
-
-  const handleSave = () => {
+  const handleSaveJSON = () => {
     const state = { slides, currentSlideIndex, selectedElementIds };
     const blob = new Blob([JSON.stringify(state)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'presentation.json';
+    const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
+    link.download = `${fileBase}.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleExportPPT = () => {
+    return
+    const pptx = new pptxgen();
+    slides.forEach(slide => {
+      const pptxSlide = pptx.addSlide();
+      if (slide.background?.color) {
+        pptxSlide.background = { color: slide.background.color.replace('#', '') };
+      }
+
+      slide.elements.forEach(element => {
+        const props = {
+          x: (element.left || 0) / 96,
+          y: (element.top || 0) / 96,
+          w: element.width / 96,
+          h: element.height / 96,
+        };
+        if (element.type === 'text' && element.content) {
+          const { color, fill, ...rest } = element.style
+          const textOptions: TextPropsOptions = {
+            ...rest,
+            x: pxToInches(element.left),
+            y: pxToInches(element.top),
+            w: pxToInches(element.width),
+            h: pxToInches(element.height),
+            color: (fill as string || color as string || '#000000').replace('#', ''),
+            valign: 'middle',
+            align: 'center',
+            fontSize: pxToPt(element.style.fontSize as number || 28),
+          };
+          pptSlide.addText(element.content, textOptions);
+        } else if (element.type === 'image') {
+          pptSlide.addImage({
+            path: element.src,
+            x: pxToInches(element.left),
+            y: pxToInches(element.top),
+            w: pxToInches(element.width),
+            h: pxToInches(element.height),
+          });
+        } else if (element.type === 'shape') {
+          const shapeType = element.shape;
+          const options = {
+            x: pxToInches(element.left),
+            y: pxToInches(element.top),
+            w: pxToInches(element.width),
+            h: pxToInches(element.height),
+            fill: (element.style.backgroundColor || '#ffffff').replace('#', ''),
+          };
+          switch (shapeType) {
+            case 'rectangle':
+              pptSlide.addShape(pptx.shapes.RECTANGLE, options);
+              break;
+            case 'circle':
+              pptSlide.addShape(pptx.shapes.OVAL, options);
+              break;
+            case 'triangle':
+              pptSlide.addShape(pptx.shapes.TRIANGLE, options);
+              break;
+            case 'diamond':
+              pptSlide.addShape(pptx.shapes.DIAMOND, options);
+              break;
+            case 'arrow-right':
+              pptSlide.addShape(pptx.shapes.RIGHT_ARROW, options);
+              break;
+            case 'hexagon':
+              pptSlide.addShape(pptx.shapes.HEXAGON, options);
+              break;
+            case 'pentagon':
+              pptSlide.addShape(pptx.shapes.PENTAGON, options);
+              break;
+            case 'star':
+              pptSlide.addShape(pptx.shapes.STAR_5_POINT, options);
+              break;
+            default:
+              break;
+          }
+        }
+      });
+    });
+    const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
+    pptx.writeFile({ fileName: `${fileBase}.pptx` });
   };
 
   const handleLoad = (file: File) => {
@@ -46,16 +120,47 @@ const Header: React.FC = () => {
     return false;
   };
 
+  const items: MenuProps['items'] = [
+    {
+      key: 'json',
+      label: '导出为 JSON',
+      onClick: handleSaveJSON,
+    },
+    {
+      key: 'ppt',
+      label: '导出为 PPT',
+      onClick: handleExportPPT,
+      disabled: true,
+    }
+  ];
+
   return (
-    <div style={{ padding: '11px', backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '40px' }}>
-      <div>
-        {/* <Button onClick={handlePreview} style={{ marginRight: '8px' }}>预览</Button>
-        <Button onClick={handleDownload} style={{ marginRight: '8px' }}>下载</Button>
-        <Button onClick={handleSave} style={{ marginRight: '8px' }}>保存</Button>
+    <div style={{ padding: '10px 12px', backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Input
+        size="small"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="请输入PPT名称"
+        prefix={<EditOutlined style={{ color: '#8c8c8c' }} />}
+        style={{ width: 240, borderRadius: 18, background: '#f7f9fc', borderColor: '#e5e7eb' }}
+        allowClear
+        maxLength={64}
+      />
+      <Space size="small" align='center'>
+        <Button size='small' type="primary" shape="round" icon={<EyeOutlined />} onClick={handlePreview}>
+          预览
+        </Button>
+        <Dropdown menu={{ items }} placement="bottomLeft">
+          <Button size='small' shape="round" icon={<DownloadOutlined />}>
+            下载
+          </Button>
+        </Dropdown>
         <Upload beforeUpload={handleLoad} showUploadList={false}>
-          <Button>加载</Button>
-        </Upload> */}
-      </div>
+          <Button size='small' shape="round" icon={<UploadOutlined />}>
+            加载
+          </Button>
+        </Upload>
+      </Space>
     </div>
   );
 };

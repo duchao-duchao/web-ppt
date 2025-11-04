@@ -7,6 +7,7 @@ interface PresentationState {
   slides: Slide[];
   currentSlideIndex: number;
   selectedElementIds: string[];
+  name: string;
 
   addSlide: () => void;
   deleteSlide: (index: number) => void;
@@ -15,13 +16,15 @@ interface PresentationState {
   addElement: (element: Omit<PPTElement, 'id'> & { left?: number, top?: number }) => void;
   updateElement: (id: string, element: Partial<PPTElement>) => void;
   setSelectedElementIds: (ids: string[]) => void;
-  loadState: (state: PresentationState) => void;
+  setName: (name: string) => void;
+  loadState: (state: Partial<PresentationState>) => void;
 }
 
 export const usePresentationStore = create<PresentationState>()(temporal((set, get) => ({
   slides: [{ id: uuidv4(), elements: [] }],
   currentSlideIndex: 0,
   selectedElementIds: [],
+  name: '未命名PPT',
 
   addSlide: () => {
     set(state => ({
@@ -90,8 +93,16 @@ export const usePresentationStore = create<PresentationState>()(temporal((set, g
   setSelectedElementIds: (ids: string[]) => {
     set({ selectedElementIds: ids });
   },
+  
+  setName: (name: string) => {
+    set({ name });
+  },
 
   loadState: (newState) => {
-    set(newState);
+    set(state => ({
+      ...state,
+      ...newState,
+      name: (newState.name ?? state.name),
+    }));
   },
 })));
