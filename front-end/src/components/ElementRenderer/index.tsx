@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { usePresentationStore } from '@/stores/presentationStore';
 import { PPTElement } from '@/types/presentation';
 
@@ -20,6 +20,9 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
     x: 0, y: 0, width: 0, height: 0, left: 0, top: 0 
   });
   const [resizeDirection, setResizeDirection] = useState('');
+  const [isRotating, setIsRotating] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+  const [rotateStart, setRotateStart] = useState<{ startAngle: number; initialRotation: number }>({ startAngle: 0, initialRotation: 0 });
 
   const { updateElement, pause, resume } = usePresentationStore();
 
@@ -59,6 +62,23 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
       top: element.y || element.top || 0,
     });
   }, [element, pause]);
+
+  // 处理旋转开始
+  const handleRotateMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = elementRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    pause();
+    setIsRotating(true);
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const startAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+    setRotateStart({ startAngle, initialRotation: element.rotation || 0 });
+  }, [pause, element.rotation]);
 
   // 处理拖拽和缩放
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -123,22 +143,38 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
         left: newLeft,
         top: newTop,
       });
+    } else if (isRotating) {
+      const rect = elementRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const currentAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+      let newRotation = rotateStart.initialRotation + (currentAngle - rotateStart.startAngle);
+
+      // Shift 键进行 15° 吸附
+      if ((e as any).shiftKey) {
+        newRotation = Math.round(newRotation / 15) * 15;
+      }
+
+      updateElement(element.id, { rotation: newRotation });
     }
-  }, [isDragging, isResizing, dragStart, resizeStart, resizeDirection, element.id, element.x, element.left, element.y, element.top, updateElement]);
+  }, [isDragging, isResizing, isRotating, dragStart, resizeStart, rotateStart, resizeDirection, element.id, element.x, element.left, element.y, element.top, updateElement]);
 
   // 处理拖拽和缩放结束
   const handleMouseUp = useCallback(() => {
-    if (isDragging || isResizing) {
+    if (isDragging || isResizing || isRotating) {
       resume();
     }
     setIsDragging(false);
     setIsResizing(false);
+    setIsRotating(false);
     setResizeDirection('');
-  }, [isDragging, isResizing, resume]);
+  }, [isDragging, isResizing, isRotating, resume]);
 
   // 添加全局事件监听
   useEffect(() => {
-    if (isDragging || isResizing) {
+    if (isDragging || isResizing || isRotating) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
       
@@ -147,7 +183,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, isResizing, handleMouseMove, handleMouseUp]);
+  }, [isDragging, isResizing, isRotating, handleMouseMove, handleMouseUp]);
 
   // 渲染线条
   const renderLine = () => {
@@ -632,6 +668,37 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
             onMouseDown={(e) => handleResizeMouseDown(e, position)}
           />
         ))}
+
+        {/* 旋转连线（仅装饰，不可交互） */}
+        <div
+          style={{
+            position: 'absolute',
+            top: -20,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 1,
+            height: 16,
+            backgroundColor: '#1890ff',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* 旋转控制点 */}
+        <div
+          style={{
+            position: 'absolute',
+            top: -30,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 14,
+            height: 14,
+            backgroundColor: '#1890ff',
+            border: '1px solid #ffffff',
+            borderRadius: '50%',
+            cursor: 'grab',
+          }}
+          onMouseDown={handleRotateMouseDown}
+        />
       </>
     );
   };
@@ -653,6 +720,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
 
   return (
     <div
+      ref={elementRef}
       style={{
         position: 'absolute',
         left: element.x || element.left,
@@ -660,7 +728,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
         width: element.width,
         height: element.height,
         transform: element.rotation ? `rotate(${element.rotation}deg)` : 'none',
-        cursor: isDragging ? 'grabbing' : isResizing ? 'resizing' : (element.type === 'text' && isSelected ? 'text' : 'grab'),
+        cursor: isDragging ? 'grabbing' : isResizing ? 'resizing' : isRotating ? 'grabbing' : (element.type === 'text' && isSelected ? 'text' : 'grab'),
         userSelect: element.type === 'text' && isSelected ? 'text' : 'none',
         zIndex: isSelected ? 1000 : 1,
       }}
