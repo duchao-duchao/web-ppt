@@ -8,6 +8,7 @@ import pptxgen from 'pptxgenjs';
 
 const Header: React.FC = () => {
   const { slides, currentSlideIndex, selectedElementIds, loadState, name, setName } = usePresentationStore();
+  const [isEditingName, setIsEditingName] = React.useState(false);
 
   const handlePreview = () => {
     const state = usePresentationStore.getState();
@@ -138,16 +139,42 @@ const Header: React.FC = () => {
 
   return (
     <div style={{ padding: '10px 12px', backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Input
-        size="small"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="请输入PPT名称"
-        prefix={<EditOutlined style={{ color: '#8c8c8c' }} />}
-        style={{ width: 240, borderRadius: 5, background: '#f7f9fc', borderColor: '#e5e7eb' }}
-        allowClear
-        maxLength={64}
-      />
+      {isEditingName ? (
+        <Input
+          size="small"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onBlur={() => setIsEditingName(false)}
+          onPressEnter={() => setIsEditingName(false)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setIsEditingName(false); }}
+          placeholder="请输入PPT名称"
+          prefix={<EditOutlined style={{ color: '#8c8c8c' }} />}
+          style={{ width: 240, borderRadius: 5, background: '#f7f9fc', borderColor: '#e5e7eb' }}
+          allowClear
+          maxLength={64}
+        />
+      ) : (
+        <div
+          onClick={() => setIsEditingName(true)}
+          title="点击编辑名称"
+          style={{
+            width: 240,
+            minHeight: 24,
+            borderRadius: 5,
+            padding: '0 8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            cursor: 'text',
+            color: '#333',
+          }}
+        >
+          <EditOutlined style={{ color: '#8c8c8c' }} />
+          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {name && name.trim() ? name : '未命名演示文稿'}
+          </span>
+        </div>
+      )}
       <Space size="small" align='center'>
         <Button size='small' type="primary" icon={<EyeOutlined />} onClick={handlePreview}>
           预览
