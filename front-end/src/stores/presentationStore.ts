@@ -24,6 +24,8 @@ interface PresentationState {
   sendBackward: () => void;
   setName: (name: string) => void;
   loadState: (state: Partial<PresentationState>) => void;
+  pause: () => void;
+  resume: () => void;
 }
 
 export const usePresentationStore = create<PresentationState>()(temporal((set, get) => ({
@@ -190,6 +192,14 @@ export const usePresentationStore = create<PresentationState>()(temporal((set, g
       }
       return state;
     });
+  },
+
+  pause: () => {
+    usePresentationStore.temporal.getState().pause();
+  },
+
+  resume: () => {
+    usePresentationStore.temporal.getState().resume();
   },
 
   setName: (name: string) => {

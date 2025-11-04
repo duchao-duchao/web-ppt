@@ -21,7 +21,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
   });
   const [resizeDirection, setResizeDirection] = useState('');
 
-  const { updateElement } = usePresentationStore();
+  const { updateElement, pause, resume } = usePresentationStore();
 
   // 处理拖拽开始
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -35,17 +35,19 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
     e.preventDefault();
     e.stopPropagation();
     
+    pause();
     setIsDragging(true);
     setDragStart({ x: e.clientX, y: e.clientY });
     
     onSelect(element.id, e);
-  }, [element.id, element.type, isSelected, onSelect]);
+  }, [element.id, element.type, isSelected, onSelect, pause]);
 
   // 处理缩放开始
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, direction: string) => {
     e.preventDefault();
     e.stopPropagation();
     
+    pause();
     setIsResizing(true);
     setResizeDirection(direction);
     setResizeStart({
@@ -56,7 +58,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
       left: element.x || element.left || 0,
       top: element.y || element.top || 0,
     });
-  }, [element]);
+  }, [element, pause]);
 
   // 处理拖拽和缩放
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -126,10 +128,13 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
 
   // 处理拖拽和缩放结束
   const handleMouseUp = useCallback(() => {
+    if (isDragging || isResizing) {
+      resume();
+    }
     setIsDragging(false);
     setIsResizing(false);
     setResizeDirection('');
-  }, []);
+  }, [isDragging, isResizing, resume]);
 
   // 添加全局事件监听
   useEffect(() => {
