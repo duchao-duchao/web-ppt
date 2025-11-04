@@ -142,21 +142,21 @@ const Header: React.FC = () => {
         onChange={(e) => setName(e.target.value)}
         placeholder="请输入PPT名称"
         prefix={<EditOutlined style={{ color: '#8c8c8c' }} />}
-        style={{ width: 240, borderRadius: 18, background: '#f7f9fc', borderColor: '#e5e7eb' }}
+        style={{ width: 240, borderRadius: 5, background: '#f7f9fc', borderColor: '#e5e7eb' }}
         allowClear
         maxLength={64}
       />
       <Space size="small" align='center'>
-        <Button size='small' type="primary" shape="round" icon={<EyeOutlined />} onClick={handlePreview}>
+        <Button size='small' type="primary" icon={<EyeOutlined />} onClick={handlePreview}>
           预览
         </Button>
         <Dropdown menu={{ items }} placement="bottomLeft">
-          <Button size='small' shape="round" icon={<DownloadOutlined />}>
+          <Button size='small' icon={<DownloadOutlined />}>
             下载
           </Button>
         </Dropdown>
         <Upload beforeUpload={handleLoad} showUploadList={false}>
-          <Button size='small' shape="round" icon={<UploadOutlined />}>
+          <Button size='small' icon={<UploadOutlined />}>
             加载
           </Button>
         </Upload>
