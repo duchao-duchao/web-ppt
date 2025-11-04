@@ -39,7 +39,7 @@ const Header: React.FC = () => {
       left: 200,
       top: 200,
       width: 200,
-      height: 2, // 线条的高度设为很小的值
+      height: 20, // 线条的高度设为很小的值
       content: '', // 线条不需要内容
       style: { 
         stroke: '#000000', 

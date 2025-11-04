@@ -63,6 +63,25 @@ const Canvas: React.FC = () => {
 
   // 键盘快捷键处理
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    // 如果当前焦点在可编辑区域或输入控件中，则不触发画布的快捷键
+    const activeEl = document.activeElement as HTMLElement | null;
+    const tag = activeEl?.tagName;
+    const isEditableTarget = !!(
+      activeEl && (
+        activeEl.isContentEditable ||
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        activeEl.getAttribute('role') === 'textbox' ||
+        activeEl.closest('.ant-input') ||
+        activeEl.closest('.ant-select') ||
+        activeEl.closest('.ant-color-picker')
+      )
+    );
+
+    if (isEditableTarget) {
+      return;
+    }
+
     if (e.key === 'Delete' || e.key === 'Backspace') {
       if (selectedElementIds.length) {
         selectedElementIds.forEach(id => deleteElement(id));
