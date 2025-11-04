@@ -143,6 +143,7 @@ const Header: React.FC = () => {
         <Input
           size="small"
           value={name}
+          autoFocus
           onChange={(e) => setName(e.target.value)}
           onBlur={() => setIsEditingName(false)}
           onPressEnter={() => setIsEditingName(false)}
