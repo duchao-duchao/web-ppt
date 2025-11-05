@@ -29,85 +29,114 @@ const Header: React.FC = () => {
   };
 
   const handleExportPPT = () => {
-    return
-    // const pptx = new pptxgen();
-    // slides.forEach(slide => {
-    //   const pptxSlide = pptx.addSlide();
-    //   if (slide.background?.color) {
-    //     pptxSlide.background = { color: slide.background.color.replace('#', '') };
-    //   }
+    try {
+      const pptx = new pptxgen();
+      const pxToInches = (px: number) => px / 96;
+      const pxToPt = (px: number) => px * 0.75;
+      const shapeOf = (type: string) => {
+        const s = pptx.shapes;
+        switch (type) {
+          case 'rectangle':
+          case 'square':
+            return s.RECTANGLE;
+          case 'circle':
+          case 'ellipse':
+            return s.OVAL;
+          case 'triangle':
+            return s.TRIANGLE;
+          case 'diamond':
+            return s.DIAMOND;
+          case 'arrow-right':
+            return s.RIGHT_ARROW;
+          case 'hexagon':
+            return s.HEXAGON;
+          case 'pentagon':
+            return s.PENTAGON;
+          case 'star':
+            return s.STAR_5_POINT;
+          // 无法映射的类型退化为矩形
+          default:
+            return s.RECTANGLE;
+        }
+      };
 
-    //   slide.elements.forEach(element => {
-    //     const props = {
-    //       x: (element.left || 0) / 96,
-    //       y: (element.top || 0) / 96,
-    //       w: element.width / 96,
-    //       h: element.height / 96,
-    //     };
-    //     if (element.type === 'text' && element.content) {
-    //       const { color, fill, ...rest } = element.style
-    //       const textOptions: TextPropsOptions = {
-    //         ...rest,
-    //         x: pxToInches(element.left),
-    //         y: pxToInches(element.top),
-    //         w: pxToInches(element.width),
-    //         h: pxToInches(element.height),
-    //         color: (fill as string || color as string || '#000000').replace('#', ''),
-    //         valign: 'middle',
-    //         align: 'center',
-    //         fontSize: pxToPt(element.style.fontSize as number || 28),
-    //       };
-    //       pptSlide.addText(element.content, textOptions);
-    //     } else if (element.type === 'image') {
-    //       pptSlide.addImage({
-    //         path: element.src,
-    //         x: pxToInches(element.left),
-    //         y: pxToInches(element.top),
-    //         w: pxToInches(element.width),
-    //         h: pxToInches(element.height),
-    //       });
-    //     } else if (element.type === 'shape') {
-    //       const shapeType = element.shape;
-    //       const options = {
-    //         x: pxToInches(element.left),
-    //         y: pxToInches(element.top),
-    //         w: pxToInches(element.width),
-    //         h: pxToInches(element.height),
-    //         fill: (element.style.backgroundColor || '#ffffff').replace('#', ''),
-    //       };
-    //       switch (shapeType) {
-    //         case 'rectangle':
-    //           pptSlide.addShape(pptx.shapes.RECTANGLE, options);
-    //           break;
-    //         case 'circle':
-    //           pptSlide.addShape(pptx.shapes.OVAL, options);
-    //           break;
-    //         case 'triangle':
-    //           pptSlide.addShape(pptx.shapes.TRIANGLE, options);
-    //           break;
-    //         case 'diamond':
-    //           pptSlide.addShape(pptx.shapes.DIAMOND, options);
-    //           break;
-    //         case 'arrow-right':
-    //           pptSlide.addShape(pptx.shapes.RIGHT_ARROW, options);
-    //           break;
-    //         case 'hexagon':
-    //           pptSlide.addShape(pptx.shapes.HEXAGON, options);
-    //           break;
-    //         case 'pentagon':
-    //           pptSlide.addShape(pptx.shapes.PENTAGON, options);
-    //           break;
-    //         case 'star':
-    //           pptSlide.addShape(pptx.shapes.STAR_5_POINT, options);
-    //           break;
-    //         default:
-    //           break;
-    //       }
-    //     }
-    //   });
-    // });
-    // const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
-    // pptx.writeFile({ fileName: `${fileBase}.pptx` });
+      slides.forEach((s) => {
+        const slide = pptx.addSlide();
+        // 背景色（去掉#）
+        if (s.background?.color) {
+          slide.background = { color: s.background.color.replace('#', '') };
+        }
+
+        s.elements.forEach((e) => {
+          const left = (e.x ?? e.left ?? 0);
+          const top = (e.y ?? e.top ?? 0);
+          const w = e.width ?? 0;
+          const h = e.height ?? 0;
+
+          if (e.type === 'text') {
+            const color = (e.style?.color || '#000000').replace('#', '');
+            const align = (e.style?.textAlign || 'left') as 'left' | 'center' | 'right';
+            const fontSizePx = e.style?.fontSize ?? 16;
+            const isBold =
+              (e.style?.fontWeight ?? 'normal') === 'bold' ||
+              (typeof e.style?.fontWeight === 'number' ? e.style!.fontWeight! >= 600 : false);
+
+            slide.addText(e.content || '', {
+              x: pxToInches(left),
+              y: pxToInches(top),
+              w: pxToInches(w),
+              h: pxToInches(h),
+              color,
+              fontSize: pxToPt(fontSizePx),
+              bold: isBold,
+              align,
+              valign: 'middle',
+            });
+          } else if (e.type === 'image') {
+            const path = e.content || '';
+            if (path) {
+              slide.addImage({
+                path,
+                x: pxToInches(left),
+                y: pxToInches(top),
+                w: pxToInches(w),
+                h: pxToInches(h),
+              });
+            }
+          } else if (e.type === 'shape') {
+            const shapeType = shapeOf(e.content || 'rectangle');
+            const fillColor = (e.style?.backgroundColor || e.style?.fill || '#ffffff').replace('#', '');
+            const lineColor = (e.style?.borderColor || e.style?.stroke || '#000000').replace('#', '');
+            const lineWidth = e.style?.borderWidth ?? e.style?.strokeWidth ?? 1;
+
+            slide.addShape(shapeType, {
+              x: pxToInches(left),
+              y: pxToInches(top),
+              w: pxToInches(w),
+              h: pxToInches(h),
+              fill: fillColor,
+              line: { color: lineColor, width: lineWidth },
+            });
+          } else if (e.type === 'line') {
+            const lineColor = (e.style?.stroke || '#000000').replace('#', '');
+            const lineWidth = e.style?.strokeWidth ?? 2;
+
+            slide.addShape(pptx.shapes.LINE, {
+              x: pxToInches(left),
+              y: pxToInches(top + h / 2),
+              w: pxToInches(w),
+              h: pxToInches(h),
+              line: { color: lineColor, width: lineWidth },
+            });
+          }
+        });
+      });
+
+      const fileBase = (name && name.trim()) ? name.trim() : 'presentation';
+      pptx.writeFile({ fileName: `${fileBase}.pptx` });
+    } catch (err) {
+      console.error('Export PPT failed:', err);
+    }
   };
 
   const handleLoad = (file: File) => {
@@ -133,7 +162,6 @@ const Header: React.FC = () => {
       key: 'ppt',
       label: '导出为 PPT',
       onClick: handleExportPPT,
-      disabled: true,
     }
   ];
 
