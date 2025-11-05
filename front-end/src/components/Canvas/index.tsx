@@ -25,7 +25,7 @@ const Canvas: React.FC<CanvasProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({ x: 0, y: 0, visible: false });
 
-  const { slides, currentSlideIndex, selectedElementIds, setSelectedElementIds, updateElement, deleteElement, copyElements, pasteElements, bringForward, sendBackward } = usePresentationStore();
+  const { slides, currentSlideIndex, selectedElementIds, setSelectedElementIds, updateElement, deleteElement, copyElements, pasteElements, bringForward, sendBackward, pause, resume } = usePresentationStore();
   const renderSlideIndex = typeof slideIndex === 'number' ? slideIndex : currentSlideIndex;
   const currentSlide = slides[renderSlideIndex];
 
@@ -96,6 +96,7 @@ const Canvas: React.FC<CanvasProps> = ({
       return;
     }
 
+    // 删除
     if (e.key === 'Delete' || e.key === 'Backspace') {
       if (selectedElementIds.length) {
         selectedElementIds.forEach(id => deleteElement(id));
@@ -103,15 +104,84 @@ const Canvas: React.FC<CanvasProps> = ({
     }
 
     const isCtrlOrCmd = e.ctrlKey || (e as any).metaKey;
+    // 复制
     if (isCtrlOrCmd && e.key.toLowerCase() === 'c') {
       if (selectedElementIds.length) {
         copyElements();
       }
     }
+    // 粘贴
     if (isCtrlOrCmd && e.key.toLowerCase() === 'v') {
       pasteElements();
     }
-  }, [selectedElementIds, deleteElement, copyElements, pasteElements]);
+    
+    // 撤销 / 重做
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      if (e.shiftKey) {
+        // Ctrl/Cmd + Shift + Z => 重做
+        try { (usePresentationStore as any).temporal.getState().redo(); } catch {}
+      } else {
+        // Ctrl/Cmd + Z => 撤销
+        try { (usePresentationStore as any).temporal.getState().undo(); } catch {}
+      }
+    }
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'y') {
+      e.preventDefault();
+      try { (usePresentationStore as any).temporal.getState().redo(); } catch {}
+    }
+
+    // 选中全部元素
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'a') {
+      e.preventDefault();
+      const allIds = (currentSlide?.elements || []).map(el => el.id);
+      setSelectedElementIds(allIds);
+    }
+
+    // 复制并创建副本（Duplicate）
+    if (isCtrlOrCmd && e.key.toLowerCase() === 'd') {
+      e.preventDefault();
+      if (selectedElementIds.length) {
+        copyElements();
+        pasteElements();
+      }
+    }
+
+    // 层级调整：置顶/置底（向前/向后一步）
+    if (isCtrlOrCmd && e.key === ']') {
+      e.preventDefault();
+      bringForward();
+    }
+    if (isCtrlOrCmd && e.key === '[') {
+      e.preventDefault();
+      sendBackward();
+    }
+
+    // 方向键移动元素（Shift加速10像素）
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      if (selectedElementIds.length) {
+        e.preventDefault();
+        const step = e.shiftKey ? 10 : 1;
+        const dx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
+        const dy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
+        pause();
+        selectedElementIds.forEach(id => {
+          const el = currentSlide?.elements.find(e => e.id === id);
+          if (!el) return;
+          const left = (el.x ?? el.left ?? 0) + dx;
+          const top = (el.y ?? el.top ?? 0) + dy;
+          updateElement(id, { left, top });
+        });
+        resume();
+      }
+    }
+
+    // Esc 清空选择
+    if (e.key === 'Escape') {
+      setSelectedElementIds([]);
+    }
+    
+  }, [selectedElementIds, deleteElement, copyElements, pasteElements, currentSlide, setSelectedElementIds, bringForward, sendBackward, pause, resume, updateElement]);
 
   // 绑定/解绑键盘事件（仅交互模式）
   useEffect(() => {
