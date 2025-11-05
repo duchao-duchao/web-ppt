@@ -579,7 +579,9 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
               fontSize: element.style?.fontSize || 16,
               fontWeight: element.style?.fontWeight || 'normal',
               fontStyle: element.style?.fontStyle || 'normal',
+              textDecoration: element.style?.textDecoration || 'none',
               textAlign: element.style?.textAlign || 'left',
+              backgroundColor: element.style?.backgroundColor || 'transparent',
               display: 'flex',
               alignItems: 'center',
               justifyContent: element.style?.textAlign === 'center' ? 'center' : 

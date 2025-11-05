@@ -89,7 +89,7 @@ const PropertyPanel = () => {
   };
 
   return (
-    <Form layout="vertical" size="small" style={{padding: 16}}>
+    <Form layout="vertical" size="small" style={{padding: 16, height: 'calc(100vh - 120px)', overflow: 'auto'}}>
       {/* 位置和尺寸 */}
       <Title level={5} style={{ margin: '0 0 12px 0', fontSize: '14px' }}>位置和尺寸</Title>
       
@@ -176,6 +176,97 @@ const PropertyPanel = () => {
               style={{ width: '100%' }}
             />
           </Form.Item>
+
+          <Form.Item label="背景颜色" style={{ marginBottom: '16px' }}>
+            <ColorPicker
+              value={selectedElement.style?.backgroundColor || 'transparent'}
+              onChange={handleColorChange('backgroundColor')}
+              showText
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+
+          <Space.Compact style={{ width: '100%', marginBottom: '12px' }}>
+            <Form.Item label="加粗" style={{ flex: 1, marginBottom: 0, marginRight: '8px' }}>
+              <Select
+                value={selectedElement.style?.fontWeight ?? 400}
+                onChange={(value) => {
+                  updateElement(selectedElementId, {
+                    style: {
+                      ...selectedElement.style,
+                      fontWeight: value,
+                    },
+                  });
+                }}
+                options={[
+                  { label: '常规', value: 400 },
+                  { label: '中等', value: 500 },
+                  { label: '加粗', value: 700 },
+                ]}
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+
+            <Form.Item label="斜体" style={{ flex: 1, marginBottom: 0 }}>
+              <Select
+                value={selectedElement.style?.fontStyle || 'normal'}
+                onChange={(value) => {
+                  updateElement(selectedElementId, {
+                    style: {
+                      ...selectedElement.style,
+                      fontStyle: value,
+                    },
+                  });
+                }}
+                options={[
+                  { label: '正常', value: 'normal' },
+                  { label: '斜体', value: 'italic' },
+                ]}
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+          </Space.Compact>
+
+          <Space.Compact style={{ width: '100%', marginBottom: '12px' }}>
+            <Form.Item label="下划线" style={{ flex: 1, marginBottom: 0, marginRight: '8px' }}>
+              <Select
+                value={selectedElement.style?.textDecoration || 'none'}
+                onChange={(value) => {
+                  updateElement(selectedElementId, {
+                    style: {
+                      ...selectedElement.style,
+                      textDecoration: value,
+                    },
+                  });
+                }}
+                options={[
+                  { label: '无', value: 'none' },
+                  { label: '下划线', value: 'underline' },
+                ]}
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+
+            <Form.Item label="对齐" style={{ flex: 1, marginBottom: 0 }}>
+              <Select
+                value={selectedElement.style?.textAlign || 'left'}
+                onChange={(value) => {
+                  updateElement(selectedElementId, {
+                    style: {
+                      ...selectedElement.style,
+                      textAlign: value,
+                    },
+                  });
+                }}
+                options={[
+                  { label: '左对齐', value: 'left' },
+                  { label: '居中', value: 'center' },
+                  { label: '右对齐', value: 'right' },
+                ]}
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+          </Space.Compact>
         </>
       )}
 

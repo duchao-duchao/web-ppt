@@ -256,7 +256,7 @@ const Canvas: React.FC<CanvasProps> = ({
 
   // 编辑模式：保持居中容器
   return (
-    <div style={{ height: 'calc(100vh - 80px)', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ height: 'calc(100vh - 100px)', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {board}
     </div>
   );
