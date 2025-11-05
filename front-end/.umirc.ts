@@ -4,7 +4,7 @@ import ThemeColorReplacer from 'webpack-theme-color-replacer';
 export default defineConfig({
   routes: [
     { path: "/", component: "Editor" },
-    { path: "/preview", component: "preview" },
+    { path: "/preview", component: "Preview" },
   ],
   npmClient: 'pnpm',
   // 根据环境设置路径

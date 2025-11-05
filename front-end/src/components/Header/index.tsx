@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Upload, Dropdown, Space, Input } from 'antd';
 import { EyeOutlined, DownloadOutlined, UploadOutlined, EditOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-// import html2canvas from 'html2canvas';
 import { usePresentationStore } from '@/stores/presentationStore';
 import pptxgen from 'pptxgenjs';
 
