@@ -89,3 +89,6 @@ web-ppt/
 ## 许可协议
 本项目使用 MIT License，详见根目录 `LICENSE` 文件。
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=web-ppt/web-ppt&type=date&legend=top-left)](https://www.star-history.com/#web-ppt/web-ppt&type=date&legend=top-left)
