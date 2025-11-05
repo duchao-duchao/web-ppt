@@ -1,0 +1,250 @@
+{
+  "slides": [
+    {
+      "id": "396e2d81-ac63-47f6-8f32-2277f57012b8",
+      "background": {
+        "color": "#000000",
+        "image": "https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=1200&q=60"
+      },
+      "elements": [
+        {
+          "id": "8c967f6e-d9b1-45d7-9819-b57f9c1a055e",
+          "type": "shape",
+          "content": "rounded-rectangle",
+          "x": 80,
+          "y": 140,
+          "width": 640,
+          "height": 180,
+          "style": {
+            "fill": "rgba(255,255,255,0.85)",
+            "stroke": "transparent",
+            "strokeWidth": 0
+          }
+        },
+        {
+          "id": "4622d261-8d5c-429b-ae10-df651ca8c5e8",
+          "type": "text",
+          "content": "精美演示模板",
+          "x": 100,
+          "y": 160,
+          "width": 600,
+          "height": 70,
+          "style": {
+            "fontSize": 44,
+            "fontWeight": "bold",
+            "color": "#111111",
+            "textAlign": "center"
+          }
+        },
+        {
+          "id": "0730d69c-f474-4254-9eee-446dfdce5c67",
+          "type": "text",
+          "content": "图文展示 · 极简风格",
+          "x": 100,
+          "y": 230,
+          "width": 600,
+          "height": 50,
+          "style": {
+            "fontSize": 20,
+            "color": "#555555",
+            "textAlign": "center"
+          }
+        },
+        {
+          "type": "shape",
+          "width": 100,
+          "height": 100,
+          "content": "star",
+          "style": {
+            "fill": "#4096ff",
+            "stroke": "#1677ff",
+            "strokeWidth": 2
+          },
+          "id": "b6e0cc63-7528-4333-b1de-519a53779ffb",
+          "x": 316,
+          "y": 31
+        }
+      ]
+    },
+    {
+      "id": "775b3a6d-98ec-4817-bcee-34a8b7414529",
+      "background": {
+        "color": "#f7f9fc"
+      },
+      "elements": [
+        {
+          "id": "a06dc4e6-c747-49ec-9329-0a25c22f158c",
+          "type": "image",
+          "content": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1000&q=60",
+          "x": 60,
+          "y": 80,
+          "width": 360,
+          "height": 240,
+          "style": {}
+        },
+        {
+          "id": "da169fd7-971d-441c-ae3b-864ca93fa2bb",
+          "type": "shape",
+          "content": "rounded-rectangle",
+          "x": 440,
+          "y": 80,
+          "width": 300,
+          "height": 240,
+          "style": {
+            "fill": "#ffffff",
+            "stroke": "#e0e4ef",
+            "strokeWidth": 1
+          }
+        },
+        {
+          "id": "32e8d1b6-42ab-4ecf-a3b1-5f482561fcd2",
+          "type": "text",
+          "content": "产品亮点",
+          "x": 460,
+          "y": 100,
+          "width": 260,
+          "height": 40,
+          "style": {
+            "fontSize": 26,
+            "fontWeight": "bold",
+            "color": "#111111"
+          }
+        },
+        {
+          "id": "83760b6f-0900-48d4-9b0a-0233166d5c0a",
+          "type": "text",
+          "content": "• 高质感视觉",
+          "x": 460,
+          "y": 150,
+          "width": 260,
+          "height": 28,
+          "style": {
+            "fontSize": 16,
+            "color": "#444444"
+          }
+        },
+        {
+          "id": "3990bb97-d2a3-4c46-87fe-d988b06b1b59",
+          "type": "text",
+          "content": "• 响应式布局",
+          "x": 460,
+          "y": 182,
+          "width": 260,
+          "height": 28,
+          "style": {
+            "fontSize": 16,
+            "color": "#444444"
+          }
+        },
+        {
+          "id": "c1b06518-7d23-4bb2-9891-81ba37275f4c",
+          "type": "text",
+          "content": "• 易于编辑",
+          "x": 460,
+          "y": 214,
+          "width": 260,
+          "height": 28,
+          "style": {
+            "fontSize": 16,
+            "color": "#444444"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ac913f3f-0bee-4da6-b5ba-12e734a16a5b",
+      "background": {
+        "color": "#ffffff"
+      },
+      "elements": [
+        {
+          "id": "587a3706-23b6-4189-81f1-933677edeca1",
+          "type": "text",
+          "content": "图片集锦",
+          "x": 47,
+          "y": 14,
+          "width": 680,
+          "height": 50,
+          "style": {
+            "fontSize": 32,
+            "fontWeight": "bold",
+            "color": "#111111"
+          }
+        },
+        {
+          "id": "a0062cff-9582-43f5-8783-05f0b2a81825",
+          "type": "shape",
+          "content": "rectangle",
+          "x": 60,
+          "y": 100,
+          "width": 120,
+          "height": 15,
+          "style": {
+            "fill": "#1677ff",
+            "stroke": "transparent",
+            "strokeWidth": 0
+          }
+        },
+        {
+          "id": "cbdfdaa1-bbaa-4e7c-9a18-494b674d6947",
+          "type": "image",
+          "content": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60",
+          "x": 60,
+          "y": 140,
+          "width": 200,
+          "height": 140,
+          "style": {}
+        },
+        {
+          "id": "378facc6-c86c-4fa8-a916-090a7eb43f67",
+          "type": "image",
+          "content": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60",
+          "x": 302,
+          "y": 117,
+          "width": 200,
+          "height": 140,
+          "style": {}
+        },
+        {
+          "id": "5cbb06c4-3f7a-4df3-87a7-0232c79b418e",
+          "type": "image",
+          "content": "https://images.unsplash.com/photo-1487412912498-0447578fcca8?auto=format&fit=crop&w=800&q=60",
+          "x": 540,
+          "y": 140,
+          "width": 200,
+          "height": 140,
+          "style": {}
+        },
+        {
+          "type": "text",
+          "width": 150,
+          "height": 50,
+          "content": "Hello World",
+          "style": {
+            "color": "#000000",
+            "fontSize": 24
+          },
+          "id": "2bf91699-ccd4-4b98-999d-71b76747cc4c",
+          "x": 367,
+          "y": 353
+        }
+      ]
+    }
+  ],
+  "currentSlideIndex": 0,
+  "selectedElementIds": [],
+  "name": "精美PPT模板",
+  "copiedElements": [
+    {
+      "id": "cbdfdaa1-bbaa-4e7c-9a18-494b674d6947",
+      "type": "image",
+      "content": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60",
+      "x": 60,
+      "y": 140,
+      "width": 200,
+      "height": 140,
+      "style": {}
+    }
+  ],
+  "updatedAt": 1762335891453
+}

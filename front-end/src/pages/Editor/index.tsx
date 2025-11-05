@@ -7,11 +7,13 @@ import SlideList from '@/components/SlideList';
 import Header from '@/components/Header';
 import CanvasHeader from '@/components/CanvasHeader';
 import Right from '@/components/Right';
+// import { useCollab } from '@/hooks/useCollab';
 
 const { Sider, Content } = Layout;
 
 const EditorPage: React.FC = () => {
-  
+  // 接入协同编辑（Socket.IO + JSON 持久化后端）
+  // useCollab();
   return (
     <Layout className={styles.layout}>
       <Header>

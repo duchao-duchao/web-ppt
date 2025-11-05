@@ -56,7 +56,7 @@ const PropertyPanel = () => {
 
   const selectedElementId = selectedElementIds[0];
   const currentSlide = slides[currentSlideIndex];
-  const selectedElement = currentSlide.elements.find(e => e.id === selectedElementId);
+  const selectedElement = currentSlide?.elements.find(e => e.id === selectedElementId);
 
   if (!selectedElement) {
     return (

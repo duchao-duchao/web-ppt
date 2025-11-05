@@ -13,6 +13,7 @@
     "antd": "^5.27.6",
     "html2canvas": "^1.4.1",
     "pptxgenjs": "^4.0.1",
+    "socket.io-client": "^4.8.1",
     "umi": "^4.5.3",
     "uuid": "^13.0.0",
     "zundo": "^2.3.0",
