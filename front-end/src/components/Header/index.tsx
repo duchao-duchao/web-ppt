@@ -3,7 +3,7 @@ import { Button, Upload, Dropdown, Space, Input } from 'antd';
 import { EyeOutlined, DownloadOutlined, UploadOutlined, EditOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { usePresentationStore } from '@/stores/presentationStore';
-import pptxgen from 'pptxgenjs';
+// import pptxgen from 'pptxgenjs';
 
 const Header: React.FC = () => {
   const { slides, currentSlideIndex, selectedElementIds, loadState, name, setName } = usePresentationStore();
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 
   const handleExportPPT = () => {
     try {
-      const pptx = new pptxgen();
+      const pptx = new window.PptxGenJS();
       const pxToInches = (px: number) => px / 96;
       const pxToPt = (px: number) => px * 0.75;
       const shapeOf = (type: string) => {
