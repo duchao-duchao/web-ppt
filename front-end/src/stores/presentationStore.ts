@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { Slide, PPTElement } from '@/types/presentation';
+import { Slide, PPTElement, ElementAnimation, SlideTimelineStep } from '@/types/presentation';
 import { temporal } from 'zundo';
 import { persist } from 'zustand/middleware';
 import { initialSlides } from '@/constant';
@@ -28,6 +28,11 @@ interface PresentationState {
   loadState: (state: Partial<PresentationState>) => void;
   pause: () => void;
   resume: () => void;
+  // 动画相关操作
+  addAnimation: (elementId: string, anim: Omit<ElementAnimation, 'id'>) => void;
+  updateAnimation: (elementId: string, animationId: string, patch: Partial<ElementAnimation>) => void;
+  removeAnimation: (elementId: string, animationId: string) => void;
+  reorderAnimations: (elementId: string, fromIndex: number, toIndex: number) => void;
 }
 
 export const usePresentationStore = create<PresentationState>()(
@@ -215,6 +220,130 @@ export const usePresentationStore = create<PresentationState>()(
           ...state,
           ...newState,
           name: (newState.name ?? state.name),
+        }));
+      },
+
+      // ===== 动画：增删改查 =====
+      addAnimation: (elementId, anim) => {
+        set(state => ({
+          slides: state.slides.map((slide, i) => {
+            if (i !== state.currentSlideIndex) return slide;
+
+            let newAnimId: string | null = null;
+            const newElements = slide.elements.map(el => {
+              if (el.id !== elementId) return el;
+              const next = { ...el } as PPTElement;
+              const animations = Array.isArray(next.animations) ? next.animations : [];
+              const newAnim = { ...anim, id: uuidv4() } as ElementAnimation;
+              newAnimId = newAnim.id;
+              next.animations = [...animations, newAnim];
+              return next;
+            });
+
+            // 更新 timeline：根据 startMode 决定并入上一并行步骤或新增步骤
+            let newTimeline: SlideTimelineStep[] | undefined;
+            if (Array.isArray(slide.timeline)) {
+              newTimeline = [...slide.timeline];
+            } else {
+              newTimeline = [];
+            }
+
+            if (newAnimId) {
+              const ref = { elementId, animationId: newAnimId };
+              if (anim.startMode === 'withPrevious') {
+                if (newTimeline.length > 0) {
+                  const last = newTimeline[newTimeline.length - 1];
+                  newTimeline[newTimeline.length - 1] = {
+                    ...last,
+                    animationRefs: [...last.animationRefs, ref],
+                  };
+                } else {
+                  newTimeline.push({
+                    id: uuidv4(),
+                    title: `步骤 ${newTimeline.length + 1}`,
+                    trigger: 'auto',
+                    animationRefs: [ref],
+                  });
+                }
+              } else {
+                newTimeline.push({
+                  id: uuidv4(),
+                  title: `步骤 ${newTimeline.length + 1}`,
+                  trigger: anim.startMode === 'onClick' ? 'onClick' : 'auto',
+                  animationRefs: [ref],
+                });
+              }
+            }
+
+            return { ...slide, elements: newElements, timeline: newTimeline };
+          })
+        }));
+      },
+
+      updateAnimation: (elementId, animationId, patch) => {
+        set(state => ({
+          slides: state.slides.map((slide, i) => {
+            if (i !== state.currentSlideIndex) return slide;
+            return {
+              ...slide,
+              elements: slide.elements.map(el => {
+                if (el.id !== elementId) return el;
+                const animations = Array.isArray(el.animations) ? el.animations : [];
+                return {
+                  ...el,
+                  animations: animations.map(a => a.id === animationId ? { ...a, ...patch, options: { ...a.options, ...(patch as any).options } } : a),
+                };
+              }),
+            };
+          })
+        }));
+      },
+
+      removeAnimation: (elementId, animationId) => {
+        set(state => ({
+          slides: state.slides.map((slide, i) => {
+            if (i !== state.currentSlideIndex) return slide;
+
+            const elements = slide.elements.map(el => {
+              if (el.id !== elementId) return el;
+              const animations = Array.isArray(el.animations) ? el.animations : [];
+              return { ...el, animations: animations.filter(a => a.id !== animationId) };
+            });
+
+            // 同步清理 timeline 中的引用，并删除空步骤
+            let timeline = slide.timeline;
+            if (Array.isArray(timeline)) {
+              timeline = timeline
+                .map(step => ({
+                  ...step,
+                  animationRefs: step.animationRefs.filter(ref => !(ref.elementId === elementId && ref.animationId === animationId))
+                }))
+                .filter(step => step.animationRefs.length > 0);
+            }
+
+            return { ...slide, elements, timeline };
+          })
+        }));
+      },
+
+      reorderAnimations: (elementId, fromIndex, toIndex) => {
+        set(state => ({
+          slides: state.slides.map((slide, i) => {
+            if (i !== state.currentSlideIndex) return slide;
+            return {
+              ...slide,
+              elements: slide.elements.map(el => {
+                if (el.id !== elementId) return el;
+                const animations = Array.isArray(el.animations) ? [...el.animations] : [];
+                if (fromIndex < 0 || toIndex < 0 || fromIndex >= animations.length || toIndex >= animations.length) {
+                  return el;
+                }
+                const [moved] = animations.splice(fromIndex, 1);
+                animations.splice(toIndex, 0, moved);
+                return { ...el, animations };
+              }),
+            };
+          })
         }));
       },
     })),

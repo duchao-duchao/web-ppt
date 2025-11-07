@@ -197,6 +197,7 @@ const Canvas: React.FC<CanvasProps> = ({
     <div 
       ref={containerRef} 
       className="canvas-container"
+      id={embedded ? `ppt-thumb-canvas-${(typeof slideIndex === 'number' ? slideIndex : currentSlideIndex)}` : 'ppt-main-canvas'}
       style={{ 
         position: 'relative',
         width: width ?? 'min(80vw, calc((100vh - 80px) * 0.8 * 5/3))',

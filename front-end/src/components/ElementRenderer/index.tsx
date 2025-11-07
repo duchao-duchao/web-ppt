@@ -723,6 +723,7 @@ const ElementRenderer: React.FC<ElementRendererProps> = ({
   return (
     <div
       ref={elementRef}
+      id={`ppt-el-${element.id}`}
       style={{
         position: 'absolute',
         left: element.x || element.left,
