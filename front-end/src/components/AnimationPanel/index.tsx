@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Select, InputNumber, Button, Space, Divider, Typography, message, Popover, Row, Col } from 'antd';
 import { usePresentationStore } from '@/stores/presentationStore';
 import type { ElementAnimation, AnimationEffect, AnimationStartMode } from '@/types/presentation';
-import { EyeOutlined, ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined, PlusOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { EyeOutlined, DeleteOutlined, PlusOutlined, CaretRightOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 const { Text } = Typography;
@@ -164,7 +164,7 @@ const AnimationPanel: React.FC = () => {
     addAnimation,
     updateAnimation,
     removeAnimation,
-    reorderAnimations,
+    // reorderAnimations,
   } = usePresentationStore();
 
   const selectedElementId = selectedElementIds.length === 1 ? selectedElementIds[0] : null;
@@ -450,9 +450,9 @@ const AnimationPanel: React.FC = () => {
                   <span className={styles.indexBadge}>{idx + 1}</span>
                   <span className={styles.itemLabel}>【{typeLabel(selectedElement?.type)}】{effectLabel(anim)}</span>
                   <span className={styles.itemActions}>
-                    <Button size="small" icon={<EyeOutlined />} onClick={() => handlePreview(anim)} />
-                    <Button size="small" icon={<ArrowUpOutlined />} onClick={() => reorderAnimations(selectedElementId!, idx, Math.max(0, idx - 1))} disabled={idx === 0} />
-                    <Button size="small" icon={<ArrowDownOutlined />} onClick={() => reorderAnimations(selectedElementId!, idx, Math.min(animations.length - 1, idx + 1))} disabled={idx === animations.length - 1} />
+                    <Button style={{marginRight: 8}} size="small" icon={<EyeOutlined />} onClick={() => handlePreview(anim)} />
+                    {/* <Button size="small" icon={<ArrowUpOutlined />} onClick={() => reorderAnimations(selectedElementId!, idx, Math.max(0, idx - 1))} disabled={idx === 0} />
+                    <Button size="small" icon={<ArrowDownOutlined />} onClick={() => reorderAnimations(selectedElementId!, idx, Math.min(animations.length - 1, idx + 1))} disabled={idx === animations.length - 1} /> */}
                     <Button size="small" danger icon={<DeleteOutlined />} onClick={() => removeAnimation(selectedElementId!, anim.id)} />
                   </span>
                 </div>
