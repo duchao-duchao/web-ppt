@@ -204,16 +204,16 @@ const Header: React.FC = () => {
         </div>
       )}
       <Space size="small" align='center'>
-        <Button size='small' type="primary" icon={<EyeOutlined />} onClick={handlePreview}>
+        <Button style={{borderRadius: 0}} size='small' type="primary" icon={<EyeOutlined />} onClick={handlePreview}>
           预览
         </Button>
         <Dropdown menu={{ items }} placement="bottomLeft">
-          <Button size='small' icon={<DownloadOutlined />}>
+          <Button style={{borderRadius: 0}} size='small' icon={<DownloadOutlined />}>
             下载
           </Button>
         </Dropdown>
         <Upload beforeUpload={handleLoad} showUploadList={false}>
-          <Button size='small' icon={<UploadOutlined />}>
+          <Button style={{borderRadius: 0}} size='small' icon={<UploadOutlined />}>
             加载
           </Button>
         </Upload>

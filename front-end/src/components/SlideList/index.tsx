@@ -55,7 +55,7 @@ const SlideList = () => {
   return (
     <div className={styles.slideList}>
       <div className={styles.actions}>
-        <Button onClick={addSlide} block style={{borderRadius: 5}}>添加幻灯片</Button>
+        <Button onClick={addSlide} block style={{borderRadius: 0}}>添加幻灯片</Button>
       </div>
       <div className={styles.list}>
         {slides.map((slide, index) => (

@@ -313,6 +313,7 @@ const PreviewPage = () => {
         <Canvas
           interactive={false}
           embedded={true}
+          slideIndex={slideIndex}
           width={baseWidth}
           height={baseHeight}
           scale={scale}
