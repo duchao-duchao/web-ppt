@@ -74,12 +74,6 @@ web-ppt/
 - 时间旅行：通过 zundo 的 `temporal` 包装 store，低成本接入撤销/重做
 - 缩略图方案：复用主画布整体缩放（禁用交互），避免维护两套渲染逻辑
 
-## Roadmap
-- 对齐/分布/吸附网格、组合/拆分
-- 完整的 PPT 导出映射（文本样式、形状、线条、图片、背景）
-- 多选批量操作与样式编辑
-- 快捷键体系完善（锁定、复制风格等）
-
 ## 贡献
 欢迎提交 Issue 或 PR：
 - Fork 本仓库并创建分支
@@ -89,6 +83,18 @@ web-ppt/
 ## 许可协议
 本项目使用 MIT License，详见根目录 `LICENSE` 文件。
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=web-ppt/web-ppt&type=date&legend=top-left)](https://www.star-history.com/#web-ppt/web-ppt&type=date&legend=top-left)
+## Roadmap
+1. 删除幻灯片
+1. 动画通过上下键切换（目前只能点击）
+1. 形状代码统一、分类
+1. 文字可配置属性 样式修改，下拉框不好看
+1. 预览按钮替换为播放icon、上传下载替换为icon
+1. 切换幻灯片增加动画效果
+1. 展示元素动画数量
+1. 选中元素效果优化
+1. 支持插入表格、图标
+1. 支持插入公式
+1. 支持插入音频、视频
+1. 吸附线
+1. 播放支持当前页、从头开始
+1. 增加模版库，可以导入模板库
